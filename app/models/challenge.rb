@@ -4,6 +4,7 @@ class Challenge < ApplicationRecord
   has_many :participants
   has_many :proposed_solutions
   has_many :votes
+  belongs_to :administrator
 
   before_create do
     self.external_id = random_id(10) if external_id.blank?

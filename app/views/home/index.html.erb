@@ -4,15 +4,10 @@
 
 <p>What do you want to do?</p>
 
-<%= session.to_h.inspect %>
-
-<ul>
-  <li>
-    <% if @admin_id.nil? %>
-      <%= button_to "Start a new challenge", [:administrators], action: :create %>
+<p>
+    <% if @administrator %>
+      <%= link_to "View your challenges", [:admin, :challenges] %>
     <% else %>
-      <%= link_to "View your challenges" %>
+      <%= button_to "Start a new challenge", [:administrators], action: :create %>
     <% end %>
-  </li>
-  <li>Participate in a challenge (use the challenge url shared by your administrator)</li>
-</ul>
+</p> <p>Participate in a challenge (use the challenge url shared by your administrator)</p>

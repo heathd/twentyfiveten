@@ -5,7 +5,7 @@ class Admin::ChallengesController < ApplicationController
   # GET /challenges
   # GET /challenges.json
   def index
-    @challenges = Challenge.all
+    @challenges = Challenge.where(administrator: @administrator).all
   end
 
   # GET /challenges/1
@@ -25,7 +25,7 @@ class Admin::ChallengesController < ApplicationController
   # POST /challenges
   # POST /challenges.json
   def create
-    @challenge = Challenge.new(challenge_params)
+    @challenge = Challenge.new(challenge_params.merge(administrator_id: @administrator.id))
 
     respond_to do |format|
       if @challenge.save
@@ -74,6 +74,7 @@ class Admin::ChallengesController < ApplicationController
 
   def require_administrator
     @administrator_id = session[:administrator_id]
+    @administrator = Administrator.find_by_administrator_id!(@administrator_id)
     unless @administrator_id.present?
       redirect_to "/", notice: 'Administrator session is required'
     end
