@@ -1,6 +1,8 @@
 <h1>Challenge finished</h1>
 
-<p><%= @challenge.challenge_text %></p>
+<div class="challenge">
+  <%= simple_format(@challenge.challenge_text) %>
+</div>
 
 <h2>The top ranking proposals were</h2>
 
