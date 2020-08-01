@@ -1,0 +1,18 @@
+<p id="notice"><%= notice %></p>
+
+<h1>25/10 Crowdsourcing</h1>
+
+<p>What do you want to do?</p>
+
+<%= session.to_h.inspect %>
+
+<ul>
+  <li>
+    <% if @admin_id.nil? %>
+      <%= button_to "Start a new challenge", [:administrators], action: :create %>
+    <% else %>
+      <%= link_to "View your challenges" %>
+    <% end %>
+  </li>
+  <li>Participate in a challenge (use the challenge url shared by your administrator)</li>
+</ul>

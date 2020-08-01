@@ -1,19 +1,74 @@
 <p id="notice"><%= notice %></p>
 
-<p>
-  <strong>External:</strong>
-  <%= @challenge.external_id %>
-</p>
 
-<p>
-  <strong>Challenge text:</strong>
-  <%= @challenge.challenge_text %>
-</p>
+<% if @current_vote %>
+<h1>
+  Challenge: <%= @challenge.challenge_text %>
+</h1>
+<p>Voting open! Round <%= @current_vote.round %></p>
 
-<p>
-  <strong>Status:</strong>
-  <%= @challenge.status %>
-</p>
+<p>Please review this proposed solution:</p>
+<p><%= @current_vote.proposed_solution.narrative %></p>
+<p><em>First step</em></p>
+<p><%= @current_vote.proposed_solution.first_step %></p>
 
-<%= link_to 'Edit', edit_challenge_path(@challenge) %> |
-<%= link_to 'Back', challenges_path %>
+<p>Your current vote: <%= @current_vote.vote %></p>
+
+<div class="twelve columns">
+<%= form_for [@challenge, @current_vote], html: {class: "two columns"} do |f| %>
+  <%= f.hidden_field :vote, value: 1 %>
+  <%= f.submit '1' %>
+<% end %>
+<%= form_for [@challenge, @current_vote], html: {class: "two columns"} do |f| %>
+  <%= f.hidden_field :vote, value: 2 %>
+  <%= f.submit '2' %>
+<% end %>
+<%= form_for [@challenge, @current_vote], html: {class: "two columns"} do |f| %>
+  <%= f.hidden_field :vote, value: 3 %>
+  <%= f.submit '3' %>
+<% end %>
+<%= form_for [@challenge, @current_vote], html: {class: "two columns"} do |f| %>
+  <%= f.hidden_field :vote, value: 4 %>
+  <%= f.submit '4' %>
+<% end %>
+<%= form_for [@challenge, @current_vote], html: {class: "two columns"} do |f| %>
+  <%= f.hidden_field :vote, value: 5 %>
+  <%= f.submit '5' %>
+<% end %>
+</div>
+
+<% elsif @challenge.status == 'finished' %>
+  <%= render "finished" %>
+<% else %>
+
+  <h1>
+    Challenge: <%= @challenge.challenge_text %>
+  </h1>
+
+  <p>There are <%= pluralize(@num_participants, "participant") %> and <%= @num_proposals %> proposals submitted so far </p>
+  <p>The challenge status is <strong><%= @challenge.status %></strong>
+
+  <% if session[:participant_id] %>
+    <% if @participant.proposed_solution.persisted? %>
+      <h3>Your current proposal:</h3>
+      <p><%= @participant.proposed_solution.narrative%></p>
+      <p><em>First step</em></p>
+      <p><%= @participant.proposed_solution.first_step%></p>
+      <h3>Amend proposal:</h3>
+      <p><em>What is your bold idea to address this challenge? What if you were ten times bolder?</em></p>
+    <% else %>
+      <h3>What is your bold idea to address this challenge?</h3>
+    <% end %>
+
+    <%= render 'form', proposed_solution: @participant.proposed_solution %>
+
+  <% elsif @challenge.status=='open' %>
+    <p>Would you like to participate in this challenge?</p>
+    <%= button_to "Participate", [@challenge, :participants], action: :create %>
+  <% else %>
+  <p>This challenge is in progress, you can't participate now</p>
+  <% end %>
+
+<% end %>
+<p><%= button_to "refresh", @challenge, method: :get %></p>
+

@@ -1,4 +1,5 @@
 class ProposedSolutionsController < ApplicationController
+  before_action :set_challenge
   before_action :set_proposed_solution, only: [:show, :edit, :update, :destroy]
 
   # GET /proposed_solutions
@@ -28,7 +29,7 @@ class ProposedSolutionsController < ApplicationController
 
     respond_to do |format|
       if @proposed_solution.save
-        format.html { redirect_to @proposed_solution, notice: 'Proposed solution was successfully created.' }
+        format.html { redirect_to [@challenge], notice: 'Proposed solution was successfully created.' }
         format.json { render :show, status: :created, location: @proposed_solution }
       else
         format.html { render :new }
@@ -42,7 +43,7 @@ class ProposedSolutionsController < ApplicationController
   def update
     respond_to do |format|
       if @proposed_solution.update(proposed_solution_params)
-        format.html { redirect_to @proposed_solution, notice: 'Proposed solution was successfully updated.' }
+        format.html { redirect_to [@challenge], notice: 'Proposed solution was successfully updated.' }
         format.json { render :show, status: :ok, location: @proposed_solution }
       else
         format.html { render :edit }
@@ -63,12 +64,20 @@ class ProposedSolutionsController < ApplicationController
 
   private
     # Use callbacks to share common setup or constraints between actions.
+    def set_challenge
+      @challenge = Challenge.find_by_external_id(params[:challenge_id])
+    end
+
+    # Use callbacks to share common setup or constraints between actions.
     def set_proposed_solution
       @proposed_solution = ProposedSolution.find(params[:id])
     end
 
     # Only allow a list of trusted parameters through.
     def proposed_solution_params
-      params.require(:proposed_solution).permit(:challenge_id, :narrative, :first_step)
+      params.require(:proposed_solution).permit(:narrative, :first_step).merge(
+        participant_id: session[:participant_id],
+        challenge_id: @challenge.id
+      )
     end
 end

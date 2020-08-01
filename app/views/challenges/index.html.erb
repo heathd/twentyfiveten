@@ -6,6 +6,7 @@
   <thead>
     <tr>
       <th>External</th>
+      <th>Admin</th>
       <th>Challenge text</th>
       <th>Status</th>
       <th colspan="3"></th>
@@ -16,7 +17,8 @@
     <% @challenges.each do |challenge| %>
       <tr>
         <td><%= challenge.external_id %></td>
-        <td><%= challenge.challenge_text %></td>
+        <td><%= challenge.admin_id %></td>
+        <td><%= truncate(challenge.challenge_text) %></td>
         <td><%= challenge.status %></td>
         <td><%= link_to 'Show', challenge %></td>
         <td><%= link_to 'Edit', edit_challenge_path(challenge) %></td>

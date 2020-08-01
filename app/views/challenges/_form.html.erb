@@ -1,10 +1,10 @@
-<%= form_with(model: challenge, local: true) do |form| %>
-  <% if challenge.errors.any? %>
+<%= form_with(model: [@challenge, proposed_solution], local: true) do |form| %>
+  <% if proposed_solution.errors.any? %>
     <div id="error_explanation">
-      <h2><%= pluralize(challenge.errors.count, "error") %> prohibited this challenge from being saved:</h2>
+      <h2><%= pluralize(proposed_solution.errors.count, "error") %> prohibited this proposed_solution from being saved:</h2>
 
       <ul>
-        <% challenge.errors.full_messages.each do |message| %>
+        <% proposed_solution.errors.full_messages.each do |message| %>
           <li><%= message %></li>
         <% end %>
       </ul>
@@ -12,21 +12,16 @@
   <% end %>
 
   <div class="field">
-    <%= form.label :external_id %>
-    <%= form.text_field :external_id %>
+    <%= form.label :narrative, "My bold idea is..." %>
+    <%= form.text_area :narrative, class: "u-full-width" %>
   </div>
 
   <div class="field">
-    <%= form.label :challenge_text %>
-    <%= form.text_field :challenge_text %>
-  </div>
-
-  <div class="field">
-    <%= form.label :status %>
-    <%= form.text_field :status %>
+    <%= form.label :first_step %>
+    <%= form.text_area :first_step, class: "u-full-width" %>
   </div>
 
   <div class="actions">
-    <%= form.submit %>
+    <%= form.submit class:"button-primary" %>
   </div>
 <% end %>

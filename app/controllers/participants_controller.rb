@@ -1,63 +1,25 @@
 class ParticipantsController < ApplicationController
+  before_action :set_challenge, only: [:create]
   before_action :set_participant, only: [:show, :edit, :update, :destroy]
-
-  # GET /participants
-  # GET /participants.json
-  def index
-    @participants = Participant.all
-  end
-
-  # GET /participants/1
-  # GET /participants/1.json
-  def show
-  end
-
-  # GET /participants/new
-  def new
-    @participant = Participant.new
-  end
-
-  # GET /participants/1/edit
-  def edit
-  end
 
   # POST /participants
   # POST /participants.json
   def create
-    @participant = Participant.new(participant_params)
+    if @challenge.status != 'open'
+      redirect_to @challenge, notice: "Can't participate now, challenge already in progress"
+    else
+      @participant = Participant.new(challenge_id: @challenge.id)
 
-    respond_to do |format|
-      if @participant.save
-        format.html { redirect_to @participant, notice: 'Participant was successfully created.' }
-        format.json { render :show, status: :created, location: @participant }
-      else
-        format.html { render :new }
-        format.json { render json: @participant.errors, status: :unprocessable_entity }
+      respond_to do |format|
+        if @participant.save
+          session[:participant_id] = @participant.id
+          format.html { redirect_to @participant.challenge, notice: 'Participant was successfully created.' }
+          format.json { render :show, status: :created, location: @participant }
+        else
+          format.html { redirect_to @participant.challenge, notice: 'Unable to create participant.' }
+          format.json { render json: @participant.errors, status: :unprocessable_entity }
+        end
       end
-    end
-  end
-
-  # PATCH/PUT /participants/1
-  # PATCH/PUT /participants/1.json
-  def update
-    respond_to do |format|
-      if @participant.update(participant_params)
-        format.html { redirect_to @participant, notice: 'Participant was successfully updated.' }
-        format.json { render :show, status: :ok, location: @participant }
-      else
-        format.html { render :edit }
-        format.json { render json: @participant.errors, status: :unprocessable_entity }
-      end
-    end
-  end
-
-  # DELETE /participants/1
-  # DELETE /participants/1.json
-  def destroy
-    @participant.destroy
-    respond_to do |format|
-      format.html { redirect_to participants_url, notice: 'Participant was successfully destroyed.' }
-      format.json { head :no_content }
     end
   end
 
@@ -67,8 +29,15 @@ class ParticipantsController < ApplicationController
       @participant = Participant.find(params[:id])
     end
 
+    def set_challenge
+      @challenge = Challenge.find_by_external_id(params[:challenge_id])
+      unless @challenge
+        redirect_to "/", notice: "Challenge not found"
+      end
+    end
+
     # Only allow a list of trusted parameters through.
     def participant_params
-      params.require(:participant).permit(:challenge_id)
+      params.permit()
     end
 end

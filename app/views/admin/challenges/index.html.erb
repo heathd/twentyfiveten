@@ -1,0 +1,48 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Challenges</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>External</th>
+      <th>Challenge text</th>
+      <th>Status</th>
+      <th>Round</th>
+      <th>Votes cast this round</th>
+      <th>Participants</th>
+      <th>Proposals</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @challenges.each do |challenge| %>
+      <tr>
+        <td><%= challenge.external_id %></td>
+        <td><%= truncate(challenge.challenge_text) %></td>
+        <td><%= challenge.status %></td>
+        <td><%= challenge.voting_round %></td>
+        <td><%= challenge.votes_cast_this_round %> / <%= challenge.participants.count %></td>
+        <td><%= challenge.participants.count %></td>
+        <td><%= challenge.participants.joins(:proposed_solution).count %></td>
+        <td><%= link_to 'Show', challenge %></td>
+        <td><%= link_to 'Edit', edit_admin_challenge_path(challenge) %></td>
+        <% if challenge.status == 'voting' %>
+          <% if challenge.voting_round == 5 %>
+            <td><%= link_to 'Conclude voting', next_round_admin_challenge_path(challenge), method: :post %></td>
+          <% else %>
+            <td><%= link_to 'Next round', next_round_admin_challenge_path(challenge), method: :post %></td>
+          <% end %>
+        <% else %>
+          <td><%= link_to 'Open voting', open_voting_admin_challenge_path(challenge), method: :post %></td>
+        <% end %>
+        <td><%= link_to 'Destroy', [:admin, challenge], method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Challenge', new_admin_challenge_path %>

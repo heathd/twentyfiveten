@@ -10,9 +10,51 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 0) do
+ActiveRecord::Schema.define(version: 2020_08_01_112157) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "administrators", force: :cascade do |t|
+    t.string "administrator_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "challenges", force: :cascade do |t|
+    t.integer "administrator_id"
+    t.string "external_id"
+    t.string "admin_id"
+    t.string "challenge_text"
+    t.string "status"
+    t.integer "voting_round"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "participants", force: :cascade do |t|
+    t.integer "challenge_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "proposed_solutions", force: :cascade do |t|
+    t.integer "challenge_id"
+    t.integer "participant_id"
+    t.string "narrative"
+    t.string "first_step"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "votes", force: :cascade do |t|
+    t.integer "challenge_id"
+    t.integer "proposed_solution_id"
+    t.integer "participant_id"
+    t.integer "vote"
+    t.integer "round"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
 
 end

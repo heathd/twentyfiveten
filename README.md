@@ -1,24 +1,42 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+25/10 crowdsourcing app.
 
-Things you may want to cover:
+How it works:
 
-* Ruby version
+## Scenario: Starting a challenge
 
-* System dependencies
+- When challenge administrator visits www.twentyfiveten.com
+- And creates a challenge
+- Then they receive a public challenge URL and a private challenge admin URL
 
-* Configuration
+## Scenario: Participating in a challenge
 
-* Database creation
+- When a challenge participant visits the public challenge URL
+- Then they are shown a holding screen and given a chance to enter their proposed solution
 
-* Database initialization
+## Scenario: Monitoring proposals
 
-* How to run the test suite
+- When a challenge administrator has shared a challenge URL with participants
+- And participants have started submitting their proposals
+- Then the challenge admininistrator can see how many participants have registered and of those, how many have submitted their proposals
 
-* Services (job queues, cache servers, search engines, etc.)
+## Scenario: Initiation of voting
 
-* Deployment instructions
+- When the challenge administrator is satisfied that all submissions have been received
+- And they initiate voting
+- Then all participants can start voting on the first round of voting
+- And the challenge administrator can see how many votes have been cast for round 1
 
-* ...
+## Scenario: Initiation of subsequent rounds of voting
+
+- When the challenge administrator is satisfied that all votes have been cast for a round
+- Then they can initiate the next round of voting
+- Then all participants can start voting on the next round of voting
+- And the challenge administrator can see how many votes have been cast for that round
+
+## Scenario: Conclusion of voting
+
+- When a challenge administrator is satisfied that all votes have been cast
+- Then they can conclude voting and close the challenge
+- And all participants and the challenge administrator can see the challenge and proposed solutions, ordered in descending order of score

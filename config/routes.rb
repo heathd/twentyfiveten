@@ -1,7 +1,19 @@
 Rails.application.routes.draw do
-  resources :votes
-  resources :proposed_solutions
-  resources :participants
-  resources :challenges
-  # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
+  resources :administrators, only: :create
+
+  namespace :admin do
+    resources :challenges do
+      post 'open_voting', on: :member
+      post 'next_round', on: :member
+    end
+  end
+
+  resources :challenges, only: :show do
+    resources :participants, only: :create
+    resources :votes, only: :update
+    resources :proposed_solutions
+  end
+
+
+  root to: "home#index"
 end

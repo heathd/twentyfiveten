@@ -1,0 +1,24 @@
+<h1>Challenge finished</h1>
+
+<p><%= @challenge.challenge_text %></p>
+
+<h2>The top ranking proposals were</h2>
+
+<table>
+  <tr>
+    <th>Total score
+    </th>
+    <th>Proposed solution
+    </th>
+    <th>First step
+    </th>
+  </tr>
+  <% @challenge.proposed_solutions.includes(:votes).sort_by {|p| p.total_score }.reverse.each do |proposed_solution| %>
+  <tr>
+    <td><%= proposed_solution.total_score %></td>
+    <td><%= proposed_solution.narrative %></td>
+    <td><%= proposed_solution.first_step %></td>
+  </tr>
+  <% end %>
+</table>
+<p>There were <%= pluralize(@num_participants, "participant") %> and <%= @num_proposals %> proposals submitted. </p>

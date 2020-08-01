@@ -10,6 +10,14 @@
   </head>
 
   <body>
-    <%= yield %>
+    <div class="container">
+
+    <!-- columns should be the immediate child of a .row -->
+    <div class="row">
+      <div class="one column"></div>
+      <div class="ten columns"><%= yield %></div>
+      <div class="one column"></div>
+    </div>
+
   </body>
 </html>
