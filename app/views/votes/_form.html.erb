@@ -1,0 +1,37 @@
+<%= form_with(model: vote, local: true) do |form| %>
+  <% if vote.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(vote.errors.count, "error") %> prohibited this vote from being saved:</h2>
+
+      <ul>
+        <% vote.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :challenge_id %>
+    <%= form.text_field :challenge_id %>
+  </div>
+
+  <div class="field">
+    <%= form.label :proposed_solution_id %>
+    <%= form.text_field :proposed_solution_id %>
+  </div>
+
+  <div class="field">
+    <%= form.label :participant_id %>
+    <%= form.text_field :participant_id %>
+  </div>
+
+  <div class="field">
+    <%= form.label :vote %>
+    <%= form.text_field :vote %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

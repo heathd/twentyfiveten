@@ -1,0 +1,31 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Proposed Solutions</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Challenge</th>
+      <th>Narrative</th>
+      <th>First step</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @proposed_solutions.each do |proposed_solution| %>
+      <tr>
+        <td><%= proposed_solution.challenge_id %></td>
+        <td><%= proposed_solution.narrative %></td>
+        <td><%= proposed_solution.first_step %></td>
+        <td><%= link_to 'Show', proposed_solution %></td>
+        <td><%= link_to 'Edit', edit_proposed_solution_path(proposed_solution) %></td>
+        <td><%= link_to 'Destroy', proposed_solution, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Proposed Solution', new_proposed_solution_path %>

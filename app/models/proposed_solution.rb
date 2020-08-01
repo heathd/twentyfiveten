@@ -1,0 +1,2 @@
+class ProposedSolution < ApplicationRecord
+end

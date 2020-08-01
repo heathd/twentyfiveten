@@ -1,0 +1,11 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  challenge_id: 
+  narrative: MyString
+  first_step: MyString
+
+two:
+  challenge_id: 
+  narrative: MyString
+  first_step: MyString

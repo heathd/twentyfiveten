@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Challenge:</strong>
+  <%= @proposed_solution.challenge_id %>
+</p>
+
+<p>
+  <strong>Narrative:</strong>
+  <%= @proposed_solution.narrative %>
+</p>
+
+<p>
+  <strong>First step:</strong>
+  <%= @proposed_solution.first_step %>
+</p>
+
+<%= link_to 'Edit', edit_proposed_solution_path(@proposed_solution) %> |
+<%= link_to 'Back', proposed_solutions_path %>

@@ -1,0 +1,32 @@
+<%= form_with(model: proposed_solution, local: true) do |form| %>
+  <% if proposed_solution.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(proposed_solution.errors.count, "error") %> prohibited this proposed_solution from being saved:</h2>
+
+      <ul>
+        <% proposed_solution.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :challenge_id %>
+    <%= form.text_field :challenge_id %>
+  </div>
+
+  <div class="field">
+    <%= form.label :narrative %>
+    <%= form.text_field :narrative %>
+  </div>
+
+  <div class="field">
+    <%= form.label :first_step %>
+    <%= form.text_field :first_step %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>
