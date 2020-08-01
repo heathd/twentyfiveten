@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>External:</strong>
+  <%= @challenge.external_id %>
+</p>
+
+<p>
+  <strong>Challenge text:</strong>
+  <%= @challenge.challenge_text %>
+</p>
+
+<p>
+  <strong>Status:</strong>
+  <%= @challenge.status %>
+</p>
+
+<%= link_to 'Edit', edit_challenge_path(@challenge) %> |
+<%= link_to 'Back', challenges_path %>
