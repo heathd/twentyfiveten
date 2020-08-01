@@ -2,10 +2,10 @@
 
 
 <% if @current_vote %>
-<h1>
-  Challenge: <%= @challenge.challenge_text %>
-</h1>
-<p>Voting open! Round <%= @current_vote.round %></p>
+  <h1>Challenge</h1>
+  <%= simple_format(@challenge.challenge_text) %>
+
+  <p>Voting open! Round <%= @current_vote.round %></p>
 
 <p>Please review this proposed solution:</p>
 <p><%= @current_vote.proposed_solution.narrative %></p>
@@ -41,9 +41,10 @@
   <%= render "finished" %>
 <% else %>
 
-  <h1>
-    Challenge: <%= @challenge.challenge_text %>
-  </h1>
+  <h1>Challenge</h1>
+  <div class="challenge">
+    <%= simple_format(@challenge.challenge_text) %>
+  </div>
 
   <p>There are <%= pluralize(@num_participants, "participant") %> and <%= @num_proposals %> proposals submitted so far </p>
   <p>The challenge status is <strong><%= @challenge.status %></strong>
