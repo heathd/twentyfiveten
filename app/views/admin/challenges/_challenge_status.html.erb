@@ -1,0 +1,9 @@
+<em><%= case status
+when ::Challenge::Status::OPEN
+  "Waiting for participants"
+when ::Challenge::Status::VOTING
+  "Voting"
+when ::Challenge::Status::FINISHED
+  "Finished"
+end
+%></em>

@@ -18,7 +18,7 @@
         <td><%= link_to challenge.external_id, challenge %></td>
         <td><%= truncate(challenge.challenge_text) %></td>
         <td>
-          <%= challenge.status %><br />
+          <%= render "challenge_status", status: challenge.status %><br />
           <%= challenge.participants.count %> participants<br />
           <%= challenge.participants.joins(:proposed_solution).count %> proposals<br />
           <% if challenge.status == 'open' %>

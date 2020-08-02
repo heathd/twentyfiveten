@@ -6,10 +6,16 @@ class Challenge < ApplicationRecord
   has_many :votes
   belongs_to :administrator
 
+  class Status
+    OPEN = "open"
+    VOTING = "voting"
+    FINISHED = "finished"
+  end
+
   before_create do
     self.external_id = random_id(10) if external_id.blank?
     self.admin_id = random_id(14) if admin_id.blank?
-    self.status = "open"
+    self.status = Status::OPEN
   end
 
   def random_id(length)
@@ -26,7 +32,7 @@ class Challenge < ApplicationRecord
 
   def open_voting!
     transaction do
-      self.status = "voting"
+      self.status = Status::VOTING
       self.voting_round = 1
       schedule_votes!
       save!
@@ -35,7 +41,7 @@ class Challenge < ApplicationRecord
 
   def next_round!
     if self.voting_round == 5
-      self.status = "finished"
+      self.status = Status::FINISHED
       self.voting_round = nil
     else
       self.voting_round += 1

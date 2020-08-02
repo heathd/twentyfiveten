@@ -13,7 +13,7 @@ class ChallengesController < ApplicationController
   # GET /challenges/1
   # GET /challenges/1.json
   def show
-    if @challenge.status == 'voting' && @participant.present?
+    if @challenge.status == Challenge::Status::VOTING && @participant.present?
       @current_vote = @participant.votes.find_by(round: @challenge.voting_round)
     end
   end

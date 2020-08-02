@@ -1,0 +1,10 @@
+{
+	"folders":
+	[
+		{
+			"path": ".",
+      "folder_exclude_patterns": ["vevndor", "node_modules"],
+                  "file_exclude_patterns": ["yarn.lock", ".byebug_history"]
+		}
+	]
+}
