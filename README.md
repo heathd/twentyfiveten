@@ -51,7 +51,7 @@ How it works:
 
 ### 07 - admin waiting for participants
 
-[![07 - admin waiting for participants](docs/thumbs/](docs)07%20-%20admin%20waiting%20for%20participants.png)
+[![07 - admin waiting for participants](docs/thumbs/07%20-%20admin%20waiting%20for%20participants.png](docs/07%20-%20admin%20waiting%20for%20participants.png)
 
 
 ## Scenario: Initiation of voting
@@ -80,7 +80,7 @@ How it works:
 
 ### 09 - admin opens next voting round
 
-[![09 - admin opens next voting round](docs/thumbs/](docs)09%20-%20admin%20opens%20next%20voting%20round.png)
+[![09 - admin opens next voting round](docs/thumbs/09%20-%20admin%20opens%20next%20voting%20round.png](docs/09%20-%20admin%20opens%20next%20voting%20round.png)
 
 ## Scenario: Conclusion of voting
 
