@@ -1,20 +1,53 @@
 <p id="notice"><%= notice %></p>
 
 <h1>25/10 Crowdsourcing</h1>
+<p class="subhead">Rapidly generate and sift a group’s most powerful actionable ideas</p>
 
-<p>What do you want to do?</p>
+<p>A tool to support <a href="http://www.liberatingstructures.com/12-2510-crowd-sourcing/">25/10 Crowdsourcing</a> virtually</p>
 
-<p>
-    <% if @administrator %>
-      <%= link_to "View your challenges", [:admin, :challenges] %>
-    <% else %>
-      <%= button_to "Start a new challenge", [:administrators], action: :create %>
-    <% end %>
-</p> <p>Participate in a challenge (use the challenge url shared by your administrator)</p>
+<h2>How it works</h2>
+
+<ol>
+  <% if @administrator %>
+    <li>Register as an administrator (you're already registered!)</li>
+    <li><%= link_to "Create your challenge", new_admin_challenge_path %></li>
+  <% else %>
+    <li>Register as an administrator (see below)</li>
+    <li>Create your challenge</li>
+  <% end %>
+
+  <li>Invite participants to propose their solutions, by sharing the unique <em>challenge URL</em> with them</li>
+  <li>Wait for all particpants to register and submit their proposals (you'll need to refresh your admin screen to see the numbers change). Once all proposals have been received, you can Open voting. Once voting is open, no new participants can join.</li>
+  <li>When voting is open, participants must click to see their first idea to vote on. As the administrator you'll see how many votes have been cast. When you are happy that all votes are cast, you can advance to the next round. If you're doing the activity via video call, you may want to play some music and invite participants to move around to the music for a short while.</li>
+  <li>Repeat until all five rounds are complete. You can then close the voting.</li>
+  <li>When voting is closed everyone can see the summary. Votes are totalled automatically. If votes were missing for some ideas, then a score out of 25 is extrapolated from the votes that were cast by taking the average score and multiplying by 5.</li>
+  <li>That's it!</li>
+</ol>
+
+<p>All voting and administration is anonymous. Your identity and that of participants is tracked using a browser cookie <code>_twentyfiveten_session</code>. Participants can only participate in one challenge at a time.</p>
+
+<h3>No warranty</h3>
+
+<p>This service is a protype and is offered as-is without warranty of any kind, express or implied, including but not limited to the warranties of merchantibility or fitness for a particular purpose. Source code is available on <a href="https://github.com/heathd/twentyfiveten">github</a> under a <a href="https://github.com/heathd/twentyfiveten/blob/master/LICENSE">GNU Affero General Public License v3.0</a>.</p>
+
+<p>If you find this useful, <a href="https://ko-fi.com/twentyfivetenapp">buy me a coffee</a></p>
+
+<h2 id="admin-links">Administrator links</h2>
+
+<% if @administrator %>
+  <p><%= link_to "View all of your challenges", [:admin, :challenges] %></p>
+  <p><%= link_to "Create a challenge", new_admin_challenge_path %></p>
+
+<% else %>
+  <%= button_to "Register as an administrator", [:administrators], action: :create %>
+<% end %>
 
 <% content_for :footer do %>
   <p>Built in a hurry by <a href="https://twitter.com/dgheath21">David Heath</a>.</p>
-  <p><a href="https://github.com/heathd/twentyfiveten">Find the source code on Github</a></p>
+
+  <p>If you find this useful, <a href="https://ko-fi.com/twentyfivetenapp">buy me a coffee</a></p>
+
+  <p><a href="https://github.com/heathd/twentyfiveten">Find the source code on Github</a> under a <a href="https://github.com/heathd/twentyfiveten/blob/master/LICENSE">GNU Affero General Public License v3.0</a>.</p></p>
 
   <p>(c) David Heath 2020</p>
 <% end %>
