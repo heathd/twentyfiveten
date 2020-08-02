@@ -1,6 +1,6 @@
 class Admin::ChallengesController < ApplicationController
   before_action :require_administrator
-  before_action :set_challenge, only: [:show, :edit, :update, :destroy, :open_voting, :next_round]
+  before_action :set_challenge, only: [:show, :edit, :update, :destroy, :open_voting, :next_round, :reset]
 
   # GET /challenges
   # GET /challenges.json
@@ -70,6 +70,11 @@ class Admin::ChallengesController < ApplicationController
   def next_round
     @challenge.next_round!
     redirect_to [:admin, :challenges], notice: "Round #{@challenge.voting_round} open"
+  end
+
+  def reset
+    @challenge.reset!
+    redirect_to [:admin, :challenges], notice: "All votes cancelled, call for participation re-opened"
   end
 
   def require_administrator

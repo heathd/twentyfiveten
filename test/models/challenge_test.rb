@@ -2,14 +2,14 @@ require 'test_helper'
 
 class ChallengeTest < ActiveSupport::TestCase
   test "creates random external id on creation" do
-    c = Challenge.new(challenge_text: "Foo")
+    c = Challenge.new(challenge_text: "Foo", administrator: Administrator.new)
     c.save!
     assert_match /^[a-zA-Z0-9]{10}$/, c.external_id
     assert_match /^[a-zA-Z0-9]{14}$/, c.admin_id
   end
 
   test "schedules votes" do
-    c = Challenge.create!(challenge_text: "Foo")
+    c = Challenge.create!(challenge_text: "Foo", administrator: Administrator.new)
     (1..20).each do
       Participant.create!(challenge_id: c.id)
     end
@@ -32,6 +32,24 @@ class ChallengeTest < ActiveSupport::TestCase
 
     assert c.participants.map { |p| p.votes.count }.all? {|c| c == 5}, "all participants have five votes"
     assert c.participants.map { |p| p.votes.map {|v| v.round}.sort }.all? {|rounds| rounds == (1..5).to_a}, "over five rounds"
+  end
+
+  test "reset" do
+    c = Challenge.create!(challenge_text: "Foo", administrator: Administrator.new)
+    (1..5).each do
+      Participant.create!(challenge_id: c.id)
+    end
+    c.participants.each do |p|
+      p.create_proposed_solution!(challenge_id: c.id, narrative: "a", first_step: "b")
+    end
+
+    c.schedule_votes!
+    assert_equal 5, c.participants.first.votes.count
+
+    c.reset!
+
+    assert_equal "open", c.status
+    assert_equal 0, c.participants.first.votes.count
   end
 
 end

@@ -5,6 +5,7 @@ Rails.application.routes.draw do
     resources :challenges do
       post 'open_voting', on: :member
       post 'next_round', on: :member
+      post 'reset', on: :member
     end
   end
 

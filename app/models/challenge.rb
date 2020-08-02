@@ -49,6 +49,14 @@ class Challenge < ApplicationRecord
     save!
   end
 
+  def reset!
+    self.status = Status::OPEN
+    self.participants.each do |p|
+      p.votes.destroy_all
+    end
+    save!
+  end
+
   def schedule_votes!
     solution_participant_pairs = proposed_solutions.map {|sln| [sln.id, sln.participant_id] }
 

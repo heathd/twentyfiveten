@@ -30,7 +30,8 @@
               <% if challenge.voting_round == 5 %>
                 <%= link_to 'Conclude voting', next_round_admin_challenge_path(challenge), method: :post %>
               <% else %>
-                <%= link_to 'Next round', next_round_admin_challenge_path(challenge), method: :post %>
+                <%= link_to 'Next round', next_round_admin_challenge_path(challenge), method: :post %><br/>
+                <%= link_to 'Reset', reset_admin_challenge_path(challenge), method: :post, data: { confirm: 'Resetting will cancel all votes cast and re-open the call for participation. Are you sure?' } %>
               <% end %>
           <% else # finished %>
             <%= link_to "See results", challenge %>
