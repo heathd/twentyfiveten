@@ -69,7 +69,7 @@ How it works:
 
 [![08 - participant casts vote](docs/thumbs/08%20-%20participant%20casts%20vote.png)](docs/08%20-%20participant%20casts%20vote.png)
 
-[![08b - participant casts vote](docs/thumbs/08b%20-%20participant%20casts%20vote.png](docs/08b%20-%20participant%20casts%20vote.png))
+[![08b - participant casts vote](docs/thumbs/08b%20-%20participant%20casts%20vote.png)](docs/08b%20-%20participant%20casts%20vote.png)
 
 ## Scenario: Initiation of subsequent rounds of voting
 
@@ -80,7 +80,7 @@ How it works:
 
 ### 09 - admin opens next voting round
 
-[![09 - admin opens next voting round](docs/thumbs/09%20-%20admin%20opens%20next%20voting%20round.png](docs/09%20-%20admin%20opens%20next%20voting%20round.png)
+[![09 - admin opens next voting round](docs/thumbs/09%20-%20admin%20opens%20next%20voting%20round.png)](docs/09%20-%20admin%20opens%20next%20voting%20round.png)
 
 ## Scenario: Conclusion of voting
 
@@ -93,7 +93,7 @@ How it works:
 
 [![10 - admin concludes voting](docs/thumbs/10%20-%20admin%20concludes%20voting.png)](docs/10%20-%20admin%20concludes%20voting.png)
 
-[![10b - admin concludes voting](docs/thumbs/10b%20-%20admin%20concludes%20voting.png](docs/10b%20-%20admin%20concludes%20voting.png))
+[![10b - admin concludes voting](docs/thumbs/10b%20-%20admin%20concludes%20voting.png)](docs/10b%20-%20admin%20concludes%20voting.png)
 
 ### 11 - summary of results
 
