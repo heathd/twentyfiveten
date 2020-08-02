@@ -12,15 +12,15 @@ How it works:
 
 ### 01 - Homepage
 
-![01 - Homepage](docs/01%20-%20Homepage.png)
+[![01 - Homepage](docs/thumbs/01%20-%20Homepage.png)](docs/01%20-%20Homepage.png)
 
 ### 02 - New challenge
 
-![02 - New challenge](docs/02%20-%20New%20challenge.png)
+[![02 - New challenge](docs/thumbs/02%20-%20New%20challenge.png)](docs/02%20-%20New%20challenge.png)
 
 ### 03 - list challenges
 
-![03 - list challenges](docs/03%20-%20list%20challenges.png)
+[![03 - list challenges](docs/thumbs/03%20-%20list%20challenges.png)](docs/03%20-%20list%20challenges.png)
 
 ## Scenario: Participating in a challenge
 
@@ -29,19 +29,19 @@ How it works:
 
 ### 04 - participate
 
-![04 - participate](docs/04%20-%20participate.png)
+[![04 - participate](docs/thumbs/04%20-%20participate.png)](docs/04%20-%20participate.png)
 
 ### 05 - Submit idea
 
-![05 - Submit idea](docs/05%20-%20Submit%20idea.png)
+[![05 - Submit idea](docs/thumbs/05%20-%20Submit%20idea.png)](docs/05%20-%20Submit%20idea.png)
 
-![05b - Submit idea](docs/05b%20-%20Submit%20idea.png)
+[![05b - Submit idea](docs/thumbs/05b%20-%20Submit%20idea.png)](docs/05b%20-%20Submit%20idea.png)
 
-![05c - Submit idea](docs/05c%20-%20Submit%20idea.png)
+[![05c - Submit idea](docs/thumbs/05c%20-%20Submit%20idea.png)](docs/05c%20-%20Submit%20idea.png)
 
 ### 06 - idea submitted
 
-![06 - idea submitted](docs/06%20-%20idea%20submitted.png)
+[![06 - idea submitted](docs/thumbs/06%20-%20idea%20submitted.png)](docs/06%20-%20idea%20submitted.png)
 
 ## Scenario: Monitoring proposals
 
@@ -51,7 +51,7 @@ How it works:
 
 ### 07 - admin waiting for participants
 
-![07 - admin waiting for participants](docs/07%20-%20admin%20waiting%20for%20participants.png)
+[![07 - admin waiting for participants](docs/thumbs/](docs)07%20-%20admin%20waiting%20for%20participants.png)
 
 
 ## Scenario: Initiation of voting
@@ -63,13 +63,13 @@ How it works:
 
 ### 07b - administrator opens voting
 
-![07b - administrator opens voting](docs/07b%20-%20administrator%20opens%20voting.png)
+[![07b - administrator opens voting](docs/thumbs/](docs)07b%20-%20administrator%20opens%20voting.png)
 
 ### 08 - participant casts vote
 
-![08 - participant casts vote](docs/08%20-%20participant%20casts%20vote.png)
+[![08 - participant casts vote](docs/thumbs/08%20-%20participant%20casts%20vote.png)](docs/08%20-%20participant%20casts%20vote.png)
 
-![08b - participant casts vote](docs/08b%20-%20participant%20casts%20vote.png)
+[![08b - participant casts vote](docs/thumbs/08b%20-%20participant%20casts%20vote.png](docs/08b%20-%20participant%20casts%20vote.png))
 
 ## Scenario: Initiation of subsequent rounds of voting
 
@@ -80,7 +80,7 @@ How it works:
 
 ### 09 - admin opens next voting round
 
-![09 - admin opens next voting round](docs/09%20-%20admin%20opens%20next%20voting%20round.png)
+[![09 - admin opens next voting round](docs/thumbs/](docs)09%20-%20admin%20opens%20next%20voting%20round.png)
 
 ## Scenario: Conclusion of voting
 
@@ -91,11 +91,11 @@ How it works:
 
 ### 10 - admin concludes voting
 
-![10 - admin concludes voting](docs/10%20-%20admin%20concludes%20voting.png)
+[![10 - admin concludes voting](docs/thumbs/10%20-%20admin%20concludes%20voting.png)](docs/10%20-%20admin%20concludes%20voting.png)
 
-![10b - admin concludes voting](docs/10b%20-%20admin%20concludes%20voting.png)
+[![10b - admin concludes voting](docs/thumbs/10b%20-%20admin%20concludes%20voting.png](docs/10b%20-%20admin%20concludes%20voting.png))
 
 ### 11 - summary of results
 
-![11 - summary of results](docs/11%20-%20summary%20of%20results.png)
+[![11 - summary of results](docs/thumbs/11%20-%20summary%20of%20results.png)](docs/11%20-%20summary%20of%20results.png)
 
