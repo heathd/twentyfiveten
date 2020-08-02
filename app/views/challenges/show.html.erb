@@ -8,9 +8,11 @@
 
 
 <h3>Please review this proposed solution:</h3>
-<p><%= @current_vote.proposed_solution.narrative %></p>
+<div class="proposed_solution">
+<p><%= simple_format(@current_vote.proposed_solution.narrative) %></p>
 <p><em>First step</em></p>
-<p><%= @current_vote.proposed_solution.first_step %></p>
+<p><%= simple_format(@current_vote.proposed_solution.first_step) %></p>
+</div>
 
 <% if @current_vote.vote.nil? || params[:amend_vote] %>
 
@@ -84,9 +86,12 @@
 
       <% else %>
         <h3>Your current proposal:</h3>
-        <p><%= @participant.proposed_solution.narrative%></p>
+
+        <div class="proposed_solution">
+        <p><%= simple_format(@participant.proposed_solution.narrative) %></p>
         <p><em>First step</em></p>
-        <p><%= @participant.proposed_solution.first_step%></p>
+        <p><%= simple_format(@participant.proposed_solution.first_step) %></p>
+        </div>
 
         <p><%= button_to "Amend proposal", @challenge, params: {amend_proposal: "1"}, method: :get %></p>
       <% end %>

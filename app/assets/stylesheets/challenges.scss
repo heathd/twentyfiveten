@@ -10,3 +10,20 @@
    font-size: 150%;
   }
 }
+
+.proposed_solution {
+  background-color:  #fff2e6;
+  padding: 1em;
+  margin: 1em 0;
+  p {
+   font-size: 120%;
+  }
+}
+
+.proposal_form .narrative textarea {
+  height: 15em;
+}
+
+.proposal_form .first_step textarea {
+  height: 7em;
+}
