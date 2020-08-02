@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_08_01_112157) do
+ActiveRecord::Schema.define(version: 2020_08_02_161146) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -19,6 +19,7 @@ ActiveRecord::Schema.define(version: 2020_08_01_112157) do
     t.string "administrator_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["administrator_id"], name: "index_administrators_on_administrator_id"
   end
 
   create_table "challenges", force: :cascade do |t|
@@ -30,12 +31,14 @@ ActiveRecord::Schema.define(version: 2020_08_01_112157) do
     t.integer "voting_round"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["administrator_id"], name: "index_challenges_on_administrator_id"
   end
 
   create_table "participants", force: :cascade do |t|
     t.integer "challenge_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["challenge_id"], name: "index_participants_on_challenge_id"
   end
 
   create_table "proposed_solutions", force: :cascade do |t|
@@ -45,6 +48,8 @@ ActiveRecord::Schema.define(version: 2020_08_01_112157) do
     t.string "first_step"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["challenge_id"], name: "index_proposed_solutions_on_challenge_id"
+    t.index ["participant_id"], name: "index_proposed_solutions_on_participant_id"
   end
 
   create_table "votes", force: :cascade do |t|
@@ -55,6 +60,10 @@ ActiveRecord::Schema.define(version: 2020_08_01_112157) do
     t.integer "round"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["challenge_id"], name: "index_votes_on_challenge_id"
+    t.index ["participant_id"], name: "index_votes_on_participant_id"
+    t.index ["proposed_solution_id"], name: "index_votes_on_proposed_solution_id"
+    t.index ["round"], name: "index_votes_on_round"
   end
 
 end
