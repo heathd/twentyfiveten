@@ -98,6 +98,10 @@
 
       <p>Thanks for your proposal, your challenge administrator will let you know when voting is open.</p>
 
+      <% if params[:check_if_round] %>
+        <p><strong>Not yet!</strong></p>
+      <% end %>
+
       <p><%= button_to "Check if voting is open", @challenge, method: :get, class:"button-primary", params: {check_if_round: 1 } %></p>
 
     <% else %>
