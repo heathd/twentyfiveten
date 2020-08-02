@@ -18,8 +18,8 @@
   <% @challenge.proposed_solutions.includes(:votes).sort_by {|p| p.total_score }.reverse.each do |proposed_solution| %>
   <tr>
     <td><%= proposed_solution.total_score %></td>
-    <td><%= proposed_solution.narrative %></td>
-    <td><%= proposed_solution.first_step %></td>
+    <td><%= simple_format(proposed_solution.narrative) %></td>
+    <td><%= simple_format(proposed_solution.first_step) %></td>
   </tr>
   <% end %>
 </table>
