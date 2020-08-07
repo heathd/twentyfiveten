@@ -15,7 +15,10 @@ class Admin::ChallengesController < ApplicationController
 
   # GET /challenges/new
   def new
-    @challenge = Challenge.new(challenge_text: "If you were ten times bolder, what big idea would you recommend?\n\nWhat first step would you take to get started?")
+    @challenge = Challenge.new(
+      challenge_prompt: "If you were ten times bolder, what big idea would you recommend?",
+     first_step_prompt: "What first step would you take to get started?"
+     )
   end
 
   # GET /challenges/1/edit
@@ -93,6 +96,6 @@ class Admin::ChallengesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def challenge_params
-      params.require(:challenge).permit(:challenge_text)
+      params.require(:challenge).permit(:challenge_context, :challenge_prompt, :first_step_prompt)
     end
 end

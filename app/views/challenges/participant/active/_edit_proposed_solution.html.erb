@@ -12,15 +12,18 @@
   <% end %>
 
   <div class="field narrative">
-    <%= form.label :narrative, "My proposal" %>
+    <%= form.label :narrative, challenge.challenge_prompt %>
     <%= form.text_area :narrative, class: "u-full-width" %>
   </div>
 
-  <div class="field first_step">
-    <%= form.label :first_step %>
-    <%= form.text_area :first_step, class: "u-full-width" %>
-  </div>
+  <% if challenge.first_step_prompt.present? %>
 
+    <div class="field first_step">
+      <%= form.label :first_step, challenge.first_step_prompt %>
+      <%= form.text_area :first_step, class: "u-full-width" %>
+    </div>
+
+  <% end %>
   <div class="actions">
     <%= form.submit "Save", class:"button-primary" %>
   </div>

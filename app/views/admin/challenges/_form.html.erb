@@ -12,8 +12,22 @@
   <% end %>
 
   <div class="field">
-    <%= form.label :challenge_text %>
-    <%= form.text_area :challenge_text, class: "u-full-width" %>
+    <%= form.label :challenge_context %>
+    <span class="supplemental"><em>Optionally, give extra context for your challenge</em></span>
+    <%= form.text_area :challenge_context, class: "u-full-width" %>
+  </div>
+
+  <div class="field">
+    <%= form.label :challenge_prompt do %>Challenge prompt (*)<% end %>
+    <span class="supplemental"><em>This is the main prompt (required)</em></span>
+
+    <%= form.text_area :challenge_prompt, class: "u-full-width", required: true %>
+  </div>
+
+  <div class="field">
+    <%= form.label :first_step_prompt %>
+    <span class="supplemental"><em>An optional explicit prompt for a first step</em></span>
+    <%= form.text_area :first_step_prompt, class: "u-full-width" %>
   </div>
 
   <div class="actions">

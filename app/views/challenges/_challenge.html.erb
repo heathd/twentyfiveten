@@ -1,3 +1,5 @@
 <div class="challenge">
-  <%= simple_format(challenge.challenge_text) %>
+  <%= simple_format(challenge.challenge_context) %>
+  <p><%= challenge.challenge_prompt %></p>
+  <p><%= challenge.first_step_prompt %></p>
 </div>

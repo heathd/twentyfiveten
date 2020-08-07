@@ -23,7 +23,10 @@
     <% @challenges.each do |challenge| %>
       <tr>
         <td>
-          <%= truncate(challenge.challenge_text, length: 80, separator: ' ')%><br />
+          <% if challenge.challenge_context.present? %>
+            <%= truncate(challenge.challenge_context, length: 80, separator: ' ')%><br />
+            <% end %>
+            <%= truncate(challenge.challenge_prompt, length: 40, separator: ' ')%><br />
           <%= link_to "edit", edit_admin_challenge_path(challenge) %>
           <%= link_to "view", challenge_path(challenge) %>
         </td>
