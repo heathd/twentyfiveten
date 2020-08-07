@@ -1,4 +1,12 @@
-<%= form_with(model: [@challenge, proposed_solution], local: true, html: {:class => "proposal_form"}) do |form| %>
+<% if amend %>
+  <h3>Amend proposal:</h3>
+
+  <p>What is your bold idea to address this challenge?<br/>What if you were ten times bolder?</p>
+<% else %>
+  <h3>What is your bold idea to address this challenge?<br/>What if you were ten times bolder?</h3>
+<% end %>
+
+<%= form_with(model: [challenge, proposed_solution], local: true, html: {:class => "proposal_form"}) do |form| %>
   <% if proposed_solution.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(proposed_solution.errors.count, "error") %> prohibited this proposed_solution from being saved:</h2>

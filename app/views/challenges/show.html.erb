@@ -1,120 +1,13 @@
 <p id="notice"><%= notice %></p>
 
-<% if @current_vote %>
-  <h1>Challenge - round <%= @current_vote.round %></h1>
-  <div class="challenge">
-  <%= simple_format(@challenge.challenge_text) %>
-  </div>
+<% participation_state = case @challenge.status
+  when Challenge::Status::OPEN,
+    Challenge::Status::FINISHED
+    session[:participant_id] ? "active" : "unregistered"
+  when Challenge::Status::VOTING
+    session[:participant_id] && @current_vote ? "active" : "unregistered"
+  end
+%>
 
-
-<h3>Please review this proposed solution:</h3>
-<div class="proposed_solution">
-<p><%= simple_format(@current_vote.proposed_solution.narrative) %></p>
-<p><em>First step</em></p>
-<p><%= simple_format(@current_vote.proposed_solution.first_step) %></p>
-</div>
-
-<% if @current_vote.vote.nil? || params[:amend_vote] %>
-
-  <% if params[:amend_vote]%>
-    <h3>You voted: <%= @current_vote.vote %></h3>
-  <% else %>
-    <h3>Cast your vote</h3>
-  <% end %>
-
-  <div class="twelve columns">
-  <%= form_for [@challenge, @current_vote], html: {class: "two columns"} do |f| %>
-    <%= f.hidden_field :vote, value: 1 %>
-    <%= f.submit '1' %>
-  <% end %>
-  <%= form_for [@challenge, @current_vote], html: {class: "two columns"} do |f| %>
-    <%= f.hidden_field :vote, value: 2 %>
-    <%= f.submit '2' %>
-  <% end %>
-  <%= form_for [@challenge, @current_vote], html: {class: "two columns"} do |f| %>
-    <%= f.hidden_field :vote, value: 3 %>
-    <%= f.submit '3' %>
-  <% end %>
-  <%= form_for [@challenge, @current_vote], html: {class: "two columns"} do |f| %>
-    <%= f.hidden_field :vote, value: 4 %>
-    <%= f.submit '4' %>
-  <% end %>
-  <%= form_for [@challenge, @current_vote], html: {class: "two columns"} do |f| %>
-    <%= f.hidden_field :vote, value: 5 %>
-    <%= f.submit '5' %>
-  <% end %>
-  </div>
-
-  <% if params[:amend_vote]%>
-    <p><%= link_to "Cancel", @challenge %></p>
-  <% end %>
-
-
-<% else %>
-  <h3>You voted: <%= @current_vote.vote %></h3>
-  <p><%= button_to "Amend vote", @challenge, params: {amend_vote: "1"}, method: :get %></p>
-
-  <p>Thanks for voting, your challenge administrator will let you know when the next round of voting is open.</p>
-
-  <% if params[:check_if_round] %>
-    <p><strong>Not yet!</strong></p>
-  <% end %>
-  <p><%= button_to "Check if next round is open", @challenge, method: :get, class:"button-primary", params: {check_if_round: @current_vote.round+1 } %></p>
-
-<% end %>
-
-<% elsif @challenge.status == 'finished' %>
-  <%= render "finished" %>
-<% else %>
-
-  <h1>Challenge</h1>
-  <div class="challenge">
-    <%= simple_format(@challenge.challenge_text) %>
-  </div>
-
-  <p>There are <%= pluralize(@num_participants, "participant") %> and <%= @num_proposals %> proposals submitted so far </p>
-  <p>The challenge status is <strong><%= @challenge.status %></strong>
-
-  <% if session[:participant_id] %>
-    <% if @participant.proposed_solution.persisted? %>
-
-      <% if params[:amend_proposal] %>
-
-        <h3>Amend proposal:</h3>
-        <p><em>What is your bold idea to address this challenge? What if you were ten times bolder?</em></p>
-        <%= render 'form', proposed_solution: @participant.proposed_solution %>
-
-      <% else %>
-        <h3>Your current proposal:</h3>
-
-        <div class="proposed_solution">
-        <p><%= simple_format(@participant.proposed_solution.narrative) %></p>
-        <p><em>First step</em></p>
-        <p><%= simple_format(@participant.proposed_solution.first_step) %></p>
-        </div>
-
-        <p><%= button_to "Amend proposal", @challenge, params: {amend_proposal: "1"}, method: :get %></p>
-      <% end %>
-
-      <p>Thanks for your proposal, your challenge administrator will let you know when voting is open.</p>
-
-      <% if params[:check_if_round] %>
-        <p><strong>Not yet!</strong></p>
-      <% end %>
-
-      <p><%= button_to "Check if voting is open", @challenge, method: :get, class:"button-primary", params: {check_if_round: 1 } %></p>
-
-    <% else %>
-      <h3>What is your bold idea to address this challenge?<br/>What if you were ten times bolder?</h3>
-      <%= render 'form', proposed_solution: @participant.proposed_solution %>
-    <% end %>
-
-
-  <% elsif @challenge.status=='open' %>
-    <p>Would you like to participate in this challenge?</p>
-    <%= button_to "Participate", [@challenge, :participants], action: :create %>
-  <% else %>
-  <p>This challenge is in progress, you can't participate now</p>
-  <% end %>
-<% end %>
+<%= render "challenges/participant/#{participation_state}/#{@challenge.status}", challenge: @challenge, current_vote: @current_vote %>
 

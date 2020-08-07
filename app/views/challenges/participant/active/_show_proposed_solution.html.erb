@@ -1,0 +1,18 @@
+<h3>Your current proposal:</h3>
+
+<div class="proposed_solution">
+<p><%= simple_format(@participant.proposed_solution.narrative) %></p>
+<p><em>First step</em></p>
+<p><%= simple_format(@participant.proposed_solution.first_step) %></p>
+</div>
+
+
+<p><%= button_to "Amend proposal", @challenge, params: {amend_proposal: "1"}, method: :get %></p>
+
+<p>Thanks for your proposal, your challenge administrator will let you know when voting is open.</p>
+
+<% if params[:check_if_round] %>
+  <p><strong>Not yet!</strong></p>
+<% end %>
+
+<p><%= button_to "Check if voting is open", @challenge, method: :get, class:"button-primary", params: {check_if_round: 1 } %></p>

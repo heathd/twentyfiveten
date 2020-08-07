@@ -1,0 +1,12 @@
+<h1>Challenge</h1>
+<div class="challenge">
+  <%= simple_format(@challenge.challenge_text) %>
+</div>
+
+<p>There are <%= pluralize(@num_participants, "participant") %> and <%= @num_proposals %> proposals submitted so far </p>
+<p>The challenge status is <strong><%= @challenge.status %></strong>
+
+<% if session[:participant_id] %>
+
+<% elsif @challenge.status=='open' %>
+<% end %>

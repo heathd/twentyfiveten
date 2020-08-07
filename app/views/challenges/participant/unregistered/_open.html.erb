@@ -1,0 +1,5 @@
+<%= render "challenges/participant/unregistered/header" %>
+
+<p>Would you like to participate in this challenge?</p>
+<%= button_to "Participate", [@challenge, :participants], action: :create %>
+

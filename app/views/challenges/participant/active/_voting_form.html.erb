@@ -1,0 +1,22 @@
+<div class="twelve columns">
+  <%= form_for [challenge, current_vote], html: {class: "two columns"} do |f| %>
+    <%= f.hidden_field :vote, value: 1 %>
+    <%= f.submit '1' %>
+  <% end %>
+  <%= form_for [challenge, current_vote], html: {class: "two columns"} do |f| %>
+    <%= f.hidden_field :vote, value: 2 %>
+    <%= f.submit '2' %>
+  <% end %>
+  <%= form_for [challenge, current_vote], html: {class: "two columns"} do |f| %>
+    <%= f.hidden_field :vote, value: 3 %>
+    <%= f.submit '3' %>
+  <% end %>
+  <%= form_for [challenge, current_vote], html: {class: "two columns"} do |f| %>
+    <%= f.hidden_field :vote, value: 4 %>
+    <%= f.submit '4' %>
+  <% end %>
+  <%= form_for [challenge, current_vote], html: {class: "two columns"} do |f| %>
+    <%= f.hidden_field :vote, value: 5 %>
+    <%= f.submit '5' %>
+  <% end %>
+</div>

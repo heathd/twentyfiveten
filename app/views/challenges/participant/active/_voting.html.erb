@@ -1,0 +1,40 @@
+<h1>Challenge - round <%= current_vote.round %></h1>
+
+<div class="challenge">
+<%= simple_format(challenge.challenge_text) %>
+</div>
+
+
+<h3>Please review this proposed solution:</h3>
+<div class="proposed_solution">
+<p><%= simple_format(current_vote.proposed_solution.narrative) %></p>
+<p><em>First step</em></p>
+<p><%= simple_format(current_vote.proposed_solution.first_step) %></p>
+</div>
+
+<% if current_vote.vote.nil? || params[:amend_vote] %>
+
+  <% if params[:amend_vote]%>
+    <h3>You voted: <%= current_vote.vote %></h3>
+  <% else %>
+    <h3>Cast your vote</h3>
+  <% end %>
+
+  <% if params[:amend_vote]%>
+    <p><%= link_to "Cancel", challenge %></p>
+  <% end %>
+
+  <%= render "challenges/participant/active/voting_form", challenge: challenge, current_vote: current_vote %>
+
+<% else %>
+  <h3>You voted: <%= current_vote.vote %></h3>
+  <p><%= button_to "Amend vote", challenge, params: {amend_vote: "1"}, method: :get %></p>
+
+  <p>Thanks for voting, your challenge administrator will let you know when the next round of voting is open.</p>
+
+  <% if params[:check_if_round] %>
+    <p><strong>Not yet!</strong></p>
+  <% end %>
+  <p><%= button_to "Check if next round is open", challenge, method: :get, class:"button-primary", params: {check_if_round: current_vote.round+1 } %></p>
+
+<% end %>
