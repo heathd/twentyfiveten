@@ -11,7 +11,7 @@ RSpec.describe "Challenge", type: :model do
   it "schedules votes" do
     c = Challenge.create!(challenge_prompt: "Foo", administrator: Administrator.new)
     (1..20).each do
-      Participant.create!(challenge_id: c.id)
+      Participant.create!(challenge_id: c.id, consent: true)
     end
     c.participants.each do |p|
       p.create_proposed_solution!(challenge_id: c.id, narrative: "a", first_step: "b")
@@ -41,7 +41,7 @@ RSpec.describe "Challenge", type: :model do
   it "reset" do
     c = Challenge.create!(challenge_prompt: "Foo", administrator: Administrator.new)
     (1..5).each do
-      Participant.create!(challenge_id: c.id)
+      Participant.create!(challenge_id: c.id, consent: true)
     end
     c.participants.each do |p|
       p.create_proposed_solution!(challenge_id: c.id, narrative: "a", first_step: "b")

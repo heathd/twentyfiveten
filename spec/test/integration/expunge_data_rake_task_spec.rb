@@ -19,7 +19,7 @@ RSpec.describe "rake expunge_data" do
       DatabaseCleaner.clean
       Timecop.freeze(Time.local(2020, 1, 1, 12, 0, 0))
       c = Challenge.create!(challenge_prompt: "Foo", administrator: Administrator.new)
-      p = Participant.create!(challenge_id: c.id)
+      p = Participant.create!(challenge_id: c.id, consent: true)
       p.create_proposed_solution!(challenge_id: c.id, narrative: "a", first_step: "b")
       c.schedule_votes!
     end
