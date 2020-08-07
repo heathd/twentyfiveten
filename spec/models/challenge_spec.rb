@@ -2,14 +2,14 @@ require 'rails_helper'
 
 RSpec.describe "Challenge", type: :model do
   it "creates random external id on creation" do
-    c = Challenge.new(challenge_text: "Foo", administrator: Administrator.new)
+    c = Challenge.new(challenge_prompt: "Foo", administrator: Administrator.new)
     c.save!
     assert_match /^[a-zA-Z0-9]{10}$/, c.external_id
     assert_match /^[a-zA-Z0-9]{14}$/, c.admin_id
   end
 
   it "schedules votes" do
-    c = Challenge.create!(challenge_text: "Foo", administrator: Administrator.new)
+    c = Challenge.create!(challenge_prompt: "Foo", administrator: Administrator.new)
     (1..20).each do
       Participant.create!(challenge_id: c.id)
     end
@@ -39,7 +39,7 @@ RSpec.describe "Challenge", type: :model do
   end
 
   it "reset" do
-    c = Challenge.create!(challenge_text: "Foo", administrator: Administrator.new)
+    c = Challenge.create!(challenge_prompt: "Foo", administrator: Administrator.new)
     (1..5).each do
       Participant.create!(challenge_id: c.id)
     end
