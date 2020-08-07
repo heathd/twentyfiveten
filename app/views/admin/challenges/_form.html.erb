@@ -12,22 +12,22 @@
   <% end %>
 
   <div class="field">
-    <%= form.label :challenge_context %>
-    <span class="supplemental"><em>Optionally, give extra context for your challenge</em></span>
+    <%= form.label :challenge_context, "Challenge context (optional)" %>
+    <span class="supplemental"><em>If you wish, give some written context to support/reinforce any context you give verbally on your call</em></span>
     <%= form.text_area :challenge_context, class: "u-full-width" %>
   </div>
 
   <div class="field">
-    <%= form.label :challenge_prompt do %>Challenge prompt (*)<% end %>
-    <span class="supplemental"><em>This is the main prompt (required)</em></span>
+    <%= form.label :challenge_prompt do %>Challenge prompt (required)<% end %>
+    <span class="supplemental"><em>What are you asking your participants?</em></span>
 
-    <%= form.text_area :challenge_prompt, class: "u-full-width", required: true %>
+    <%= form.text_field :challenge_prompt, class: "u-full-width", required: true %>
   </div>
 
   <div class="field">
-    <%= form.label :first_step_prompt %>
-    <span class="supplemental"><em>An optional explicit prompt for a first step</em></span>
-    <%= form.text_area :first_step_prompt, class: "u-full-width" %>
+    <%= form.label :first_step_prompt, "First step prompt (optional)" %>
+    <span class="supplemental"><em>Asking for a first step helps get actionable proposals</em></span>
+    <%= form.text_field :first_step_prompt, class: "u-full-width" %>
   </div>
 
   <div class="actions">

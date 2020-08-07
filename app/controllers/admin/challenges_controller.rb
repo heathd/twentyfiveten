@@ -17,8 +17,8 @@ class Admin::ChallengesController < ApplicationController
   def new
     @challenge = Challenge.new(
       challenge_prompt: "If you were ten times bolder, what big idea would you recommend?",
-     first_step_prompt: "What first step would you take to get started?"
-     )
+      first_step_prompt: "What first step would you take to get started?"
+    )
   end
 
   # GET /challenges/1/edit
@@ -44,14 +44,10 @@ class Admin::ChallengesController < ApplicationController
   # PATCH/PUT /challenges/1
   # PATCH/PUT /challenges/1.json
   def update
-    respond_to do |format|
-      if @challenge.update(challenge_params)
-        format.html { redirect_to @challenge, notice: 'Challenge was successfully updated.' }
-        format.json { render :show, status: :ok, location: @challenge }
-      else
-        format.html { render :edit }
-        format.json { render json: @challenge.errors, status: :unprocessable_entity }
-      end
+    if @challenge.update(challenge_params)
+      redirect_to [:admin, :challenges], notice: 'Challenge was successfully updated.'
+    else
+      render :edit
     end
   end
 
