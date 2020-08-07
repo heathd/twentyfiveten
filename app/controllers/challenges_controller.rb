@@ -1,3 +1,5 @@
+require 'challenge_csv_formatter'
+
 class ChallengesController < ApplicationController
   before_action :set_challenge, only: [:show]
   before_action :set_participant
@@ -8,6 +10,11 @@ class ChallengesController < ApplicationController
   def show
     if @challenge.status == Challenge::Status::VOTING && @participant.present? && @participant.persisted?
       @current_vote = @participant.votes.find_by(round: @challenge.voting_round)
+    end
+
+    respond_to do |format|
+      format.html
+      format.csv { send_data ChallengeCsvFormatter.new(@challenge, host: request.host_with_port).to_csv, filename: "twentyfiveten-#{@challenge.external_id}-#{Date.today}.csv" }
     end
   end
 

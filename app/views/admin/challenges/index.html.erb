@@ -47,7 +47,8 @@
                 <%= link_to 'Reset', reset_admin_challenge_path(challenge), method: :post, data: { confirm: 'Resetting will cancel all votes cast and re-open the call for participation. Are you sure?' } %>
               <% end %>
           <% else # finished %>
-            <%= link_to "See results", challenge %>
+            <%= link_to "See results", challenge %><br />
+            <%= link_to "Download CSV", challenge_path(challenge, format: :csv) %>
           <% end %>
         </td>
         <td><%= link_to challenge.external_id, challenge %></td>

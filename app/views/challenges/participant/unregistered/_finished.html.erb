@@ -20,4 +20,6 @@
   </tr>
   <% end %>
 </table>
+
+<p><%= link_to "Download results as CSV", challenge_path(@challenge, format: :csv) %></p>
 <p>There were <%= pluralize(@num_participants, "participant") %> and <%= @num_proposals %> proposals submitted. </p>

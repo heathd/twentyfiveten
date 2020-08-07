@@ -28,6 +28,22 @@ class Challenge < ApplicationRecord
     end
   end
 
+  def number_of_proposals
+    participants.joins(:proposed_solution).count
+  end
+
+  def number_of_votes_cast
+    votes.where.not(vote: nil).count
+  end
+
+  def number_of_participants
+    participants.count
+  end
+
+  def results
+    proposed_solutions.includes(:votes).sort_by {|p| p.total_score }.reverse
+  end
+
   def old?
     created_at < 20.days.ago
   end
