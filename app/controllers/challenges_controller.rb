@@ -1,7 +1,7 @@
 require 'challenge_csv_formatter'
 
 class ChallengesController < ApplicationController
-  before_action :set_challenge, only: [:show]
+  before_action :set_challenge
   before_action :set_participant
   before_action :set_participation_state
   before_action :set_proposed_solution
@@ -40,7 +40,7 @@ class ChallengesController < ApplicationController
         Challenge::Status::FINISHED
         @participant.persisted? ? "active" : "unregistered"
       when Challenge::Status::VOTING
-        @participant.persisted? && @current_vote ? "active" : "unregistered"
+        @participant.voting_in?(@challenge) ? "active" : "unregistered"
       end
     end
 
