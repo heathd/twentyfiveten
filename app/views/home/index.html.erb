@@ -82,6 +82,18 @@
 </ul>
 
 
+<h3>Privacy and data protection</h3>
+
+<p>This application will store and process your data, and data submitted by your participants for the purpose of offering you the 25/10 crowdsourcing service. The lawful basis for processing your data is <b>consent</b>. </p>
+
+<p>This application does not explicitly collect any personal data. However, the nature of data submitted by you or your participants to describe your challenge or proposed solution may be personal in nature. You and your participants determine what data you choose to submit.</p>
+
+<p>We process and store your data securely in Heroku. Read <a href="https://www.heroku.com/policy/security">Heroku's security and privacy policy</a></p>
+
+<p><strong>Data will be deleted after 30 days.</strong></p>
+
+<p>If you wish to retain your data please copy/paste and save it elsewhere.</p>
+
 <h2 id="admin-links">Administrator links</h2>
 
 <% if @administrator %>
@@ -89,5 +101,6 @@
   <p><%= link_to "Create a challenge", new_admin_challenge_path %></p>
 
 <% else %>
-  <%= button_to "Register as an administrator", [:administrators], action: :create %>
+
+  <%= button_to "I consent to the processing of my data, register me as an administrator", [:administrators], action: :create, class: "button-primary"%>
 <% end %>

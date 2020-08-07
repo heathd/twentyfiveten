@@ -15,3 +15,12 @@
  *= require normalize
  *= require skeleton
  */
+
+.admin_challenge_index tr.about_to_be_deleted {
+  background-color: #ffcccc;
+}
+
+.admin_challenge_index tr.old {
+  background-color: #ffd9b3;
+}
+

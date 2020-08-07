@@ -18,6 +18,24 @@ class Challenge < ApplicationRecord
     self.status = Status::OPEN
   end
 
+  def age_class
+    if about_to_be_deleted?
+      "about_to_be_deleted"
+    elsif old?
+      "old"
+    else
+      ""
+    end
+  end
+
+  def old?
+    created_at < 20.days.ago
+  end
+
+  def about_to_be_deleted?
+    created_at < 28.days.ago
+  end
+
   def random_id(length)
     SecureRandom.alphanumeric(length)
   end

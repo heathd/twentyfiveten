@@ -3,7 +3,7 @@
 <h1>Challenges</h1>
 
 
-<table>
+<table class="admin_challenge_index">
   <thead>
     <tr>
       <th>Challenge text</th>
@@ -21,7 +21,7 @@
       </td>
     </tr>
     <% @challenges.each do |challenge| %>
-      <tr>
+      <tr class="<%= challenge.age_class %>" >
         <td>
           <% if challenge.challenge_context.present? %>
             <%= truncate(challenge.challenge_context, length: 80, separator: ' ')%><br />
@@ -57,4 +57,6 @@
     <% end %>
   </tbody>
 </table>
+
+<p><strong>Data will be deleted after 30 days.</strong></p>
 
