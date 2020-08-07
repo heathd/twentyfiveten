@@ -1,13 +1,4 @@
 <p id="notice"><%= notice %></p>
 
-<% participation_state = case @challenge.status
-  when Challenge::Status::OPEN,
-    Challenge::Status::FINISHED
-    session[:participant_id] ? "active" : "unregistered"
-  when Challenge::Status::VOTING
-    session[:participant_id] && @current_vote ? "active" : "unregistered"
-  end
-%>
-
-<%= render "challenges/participant/#{participation_state}/#{@challenge.status}", challenge: @challenge, current_vote: @current_vote %>
+<%= render "challenges/participant/#{@participation_state}/#{@challenge.status}", challenge: @challenge, current_vote: @current_vote %>
 

@@ -8,17 +8,13 @@ class ParticipantsController < ApplicationController
     if @challenge.status != 'open'
       redirect_to @challenge, notice: "Can't participate now, challenge already in progress"
     else
-      @participant = Participant.new(challenge_id: @challenge.id)
+      @participant = Participant.new(participant_params.merge(challenge_id: @challenge.id))
 
-      respond_to do |format|
-        if @participant.save
-          session[:participant_id] = @participant.id
-          format.html { redirect_to @participant.challenge, notice: 'Participant was successfully created.' }
-          format.json { render :show, status: :created, location: @participant }
-        else
-          format.html { redirect_to @participant.challenge, notice: 'Unable to create participant.' }
-          format.json { render json: @participant.errors, status: :unprocessable_entity }
-        end
+      if @participant.save
+        session[:participant_id] = @participant.id
+        redirect_to @participant.challenge, notice: 'Participant was successfully created.'
+      else
+        redirect_to @participant.challenge, notice: "Unable to register -- #{@participant.errors[:consent].join(", ")}"
       end
     end
   end
@@ -38,6 +34,6 @@ class ParticipantsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def participant_params
-      params.permit()
+      params.permit(:consent)
     end
 end

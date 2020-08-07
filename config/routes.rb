@@ -15,6 +15,7 @@ Rails.application.routes.draw do
     resources :proposed_solutions
   end
 
+  get :privacy, controller: :home
 
   root to: "home#index"
 end

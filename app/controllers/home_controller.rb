@@ -5,6 +5,9 @@ class HomeController < ApplicationController
     @administrator = session[:administrator_id]
   end
 
+  def privacy
+  end
+
   def set_administrator
     if session[:administrator_id]
       @administrator = Administrator.find_by_administrator_id!(session[:administrator_id])

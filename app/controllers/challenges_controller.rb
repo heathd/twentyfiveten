@@ -1,11 +1,12 @@
 class ChallengesController < ApplicationController
   before_action :set_challenge, only: [:show]
   before_action :set_participant
+  before_action :set_participation_state
   before_action :set_proposed_solution
   before_action :count_participants
 
   def show
-    if @challenge.status == Challenge::Status::VOTING && @participant.present?
+    if @challenge.status == Challenge::Status::VOTING && @participant.present? && @participant.persisted?
       @current_vote = @participant.votes.find_by(round: @challenge.voting_round)
     end
   end
@@ -19,9 +20,21 @@ class ChallengesController < ApplicationController
     def set_participant
       if session[:participant_id]
         @participant = Participant.where(challenge_id: @challenge).find(session[:participant_id])
+      else
+        @participant = Participant.new
       end
     rescue ActiveRecord::RecordNotFound
-      session.delete(:participant_id)
+      @participant = Participant.new
+    end
+
+    def set_participation_state
+      @participation_state = case @challenge.status
+      when Challenge::Status::OPEN,
+        Challenge::Status::FINISHED
+        @participant.persisted? ? "active" : "unregistered"
+      when Challenge::Status::VOTING
+        @participant.persisted? && @current_vote ? "active" : "unregistered"
+      end
     end
 
     def set_proposed_solution
