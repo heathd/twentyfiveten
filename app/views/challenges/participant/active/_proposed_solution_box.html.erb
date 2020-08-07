@@ -1,0 +1,8 @@
+<div class="proposed_solution">
+<p><%= simple_format(proposed_solution.narrative) %></p>
+<% if proposed_solution.first_step.present? %>
+  <p><em>First step</em></p>
+  <p><%= simple_format(proposed_solution.first_step) %></p>
+<% end %>
+</div>
+

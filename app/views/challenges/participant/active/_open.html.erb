@@ -1,10 +1,7 @@
-<h1>Challenge</h1>
-
 <div class="challenge">
   <%= simple_format(challenge.challenge_text) %>
 </div>
 
-<p>There are <%= pluralize(@num_participants, "participant") %> and <%= @num_proposals %> proposals submitted so far </p>
 
 <% if @participant.proposed_solution.new_record? || params[:amend_proposal] %>
 

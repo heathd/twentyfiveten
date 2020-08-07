@@ -5,7 +5,7 @@ class Admin::ChallengesController < ApplicationController
   # GET /challenges
   # GET /challenges.json
   def index
-    @challenges = Challenge.where(administrator: @administrator).all
+    @challenges = Challenge.where(administrator: @administrator).order(created_at: :desc).all
   end
 
   # GET /challenges/1
@@ -15,7 +15,7 @@ class Admin::ChallengesController < ApplicationController
 
   # GET /challenges/new
   def new
-    @challenge = Challenge.new
+    @challenge = Challenge.new(challenge_text: "If you were ten times bolder, what big idea would you recommend?\n\nWhat first step would you take to get started?")
   end
 
   # GET /challenges/1/edit

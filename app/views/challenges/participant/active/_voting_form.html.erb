@@ -2,6 +2,7 @@
   <%= form_for [challenge, current_vote], html: {class: "two columns"} do |f| %>
     <%= f.hidden_field :vote, value: 1 %>
     <%= f.submit '1' %>
+    &larr; Low
   <% end %>
   <%= form_for [challenge, current_vote], html: {class: "two columns"} do |f| %>
     <%= f.hidden_field :vote, value: 2 %>
@@ -18,5 +19,7 @@
   <%= form_for [challenge, current_vote], html: {class: "two columns"} do |f| %>
     <%= f.hidden_field :vote, value: 5 %>
     <%= f.submit '5' %>
+    High &rarr;
   <% end %>
 </div>
+<p>For a score of 5 -- Would you willingly invest your own time/energy/resources in this idea?</p>

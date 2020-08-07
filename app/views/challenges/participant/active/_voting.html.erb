@@ -1,16 +1,12 @@
-<h1>Challenge - round <%= current_vote.round %></h1>
+<h1>Voting round <%= current_vote.round %></h1>
 
 <div class="challenge">
 <%= simple_format(challenge.challenge_text) %>
 </div>
 
 
-<h3>Please review this proposed solution:</h3>
-<div class="proposed_solution">
-<p><%= simple_format(current_vote.proposed_solution.narrative) %></p>
-<p><em>First step</em></p>
-<p><%= simple_format(current_vote.proposed_solution.first_step) %></p>
-</div>
+<h3>What do you think of this idea?</h3>
+<%= render "challenges/participant/active/proposed_solution_box", proposed_solution: current_vote.proposed_solution %>
 
 <% if current_vote.vote.nil? || params[:amend_vote] %>
 
@@ -30,7 +26,7 @@
   <h3>You voted: <%= current_vote.vote %></h3>
   <p><%= button_to "Amend vote", challenge, params: {amend_vote: "1"}, method: :get %></p>
 
-  <p>Thanks for voting, your challenge administrator will let you know when the next round of voting is open.</p>
+  <p>Thanks for voting, your administrator will let you know when the next round of voting is open.</p>
 
   <% if params[:check_if_round] %>
     <p><strong>Not yet!</strong></p>
