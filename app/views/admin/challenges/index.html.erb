@@ -2,21 +2,31 @@
 
 <h1>Challenges</h1>
 
+
 <table>
   <thead>
     <tr>
-      <th>Link to share</th>
       <th>Challenge text</th>
       <th>Status</th>
-      <th colspan="3"></th>
+      <th>Link to share</th>
+      <th>Created</th>
+      <th></th>
     </tr>
   </thead>
 
   <tbody>
+    <tr>
+      <td colspan="5">
+        <%= link_to 'New Challenge', new_admin_challenge_path %>
+      </td>
+    </tr>
     <% @challenges.each do |challenge| %>
       <tr>
-        <td><%= link_to challenge.external_id, challenge %></td>
-        <td><%= truncate(challenge.challenge_text) %></td>
+        <td>
+          <%= truncate(challenge.challenge_text, length: 80, separator: ' ')%><br />
+          <%= link_to "edit", edit_admin_challenge_path(challenge) %>
+          <%= link_to "view", challenge_path(challenge) %>
+        </td>
         <td>
           <%= render "challenge_status", status: challenge.status %><br />
           <%= challenge.participants.count %> participants<br />
@@ -37,14 +47,11 @@
             <%= link_to "See results", challenge %>
           <% end %>
         </td>
-        <td><%= link_to 'Show', challenge %></td>
-        <td><%= link_to 'Edit', edit_admin_challenge_path(challenge) %></td>
+        <td><%= link_to challenge.external_id, challenge %></td>
+        <td><span title="<%= challenge.created_at %>"><%= time_ago_in_words(challenge.created_at) %> ago</span></td>
         <td><%= link_to 'Destroy', [:admin, challenge], method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
   </tbody>
 </table>
 
-<br>
-
-<%= link_to 'New Challenge', new_admin_challenge_path %>
