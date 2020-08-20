@@ -20,8 +20,13 @@ class AdministratorsController < ApplicationController
       session[:administrator_id] = @administrator.administrator_id
       redirect_to admin_challenges_path, notice: "Logged in successfully"
     else
-      redirect_to home_index_path, notice: 'Administrator not found'
+      redirect_to root_path, notice: 'Administrator not found'
     end
+  end
+
+  def logout
+    session.delete(:administrator_id)
+    redirect_to root_path, notice: 'Logged out'
   end
 
   # GET /administrators/new

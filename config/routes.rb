@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   resources :administrators, only: :create do
     post :login, on: :collection
+    post :logout, on: :collection
   end
 
   namespace :admin do
