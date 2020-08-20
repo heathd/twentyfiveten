@@ -2,7 +2,6 @@ class HomeController < ApplicationController
   before_action :set_administrator
 
   def index
-    @administrator = session[:administrator_id]
   end
 
   def privacy

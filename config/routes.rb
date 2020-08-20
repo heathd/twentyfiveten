@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
-  resources :administrators, only: :create
+  resources :administrators, only: :create do
+    post :login, on: :collection
+  end
 
   namespace :admin do
     resources :challenges do

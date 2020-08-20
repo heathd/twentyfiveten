@@ -13,6 +13,17 @@ class AdministratorsController < ApplicationController
   def show
   end
 
+  def login
+    params.require(:administrator_id)
+    @administrator = Administrator.find_by_administrator_id(params[:administrator_id])
+    if @administrator
+      session[:administrator_id] = @administrator.administrator_id
+      redirect_to admin_challenges_path, notice: "Logged in successfully"
+    else
+      redirect_to home_index_path, notice: 'Administrator not found'
+    end
+  end
+
   # GET /administrators/new
   def new
     @administrator = Administrator.new

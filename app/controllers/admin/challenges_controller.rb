@@ -78,7 +78,7 @@ class Admin::ChallengesController < ApplicationController
 
   def require_administrator
     @administrator_id = session[:administrator_id]
-    @administrator = Administrator.find_by_administrator_id!(@administrator_id)
+    @administrator = Administrator.find_by_administrator_id(@administrator_id)
     unless @administrator_id.present?
       redirect_to "/", notice: 'Administrator session is required'
     end

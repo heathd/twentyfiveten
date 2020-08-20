@@ -97,10 +97,18 @@
 <h2 id="admin-links">Administrator links</h2>
 
 <% if @administrator %>
+  <p>Your administrator login code: <%= @administrator.administrator_id %></p>
   <p><%= link_to "View all of your challenges", [:admin, :challenges] %></p>
   <p><%= link_to "Create a challenge", new_admin_challenge_path %></p>
 
 <% else %>
 
   <%= button_to "I consent to the processing of my data, register me as an administrator", [:administrators], action: :create, class: "button-primary"%>
+  <p>or</p>
+  <h2>Login using an administrator code</h2>
+  <%= form_tag login_administrators_path, :method => :post do %>
+    <%= label_tag :administrator_id, "Administrator ID" %>
+    <%= text_field_tag :administrator_id %>
+    <%= submit_tag 'Login' %><br />
+  <% end %>
 <% end %>
