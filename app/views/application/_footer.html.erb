@@ -1,6 +1,10 @@
 
 <p>App built in a hurry by <a href="https://twitter.com/dgheath21">David Heath</a>, if you find this useful, <a href="https://ko-fi.com/twentyfivetenapp">buy me a coffee</a>.</p>
 
+<% if ENV.has_key?("SETUP_BY") %>
+  <h2 class="operator">This installation was set up by <%= ENV['SETUP_BY'] %></h2>
+<% end %>
+
 <p><a href="https://github.com/heathd/twentyfiveten">Find the source code on Github</a> under a <a href="https://github.com/heathd/twentyfiveten/blob/master/LICENSE">GNU Affero General Public License v3.0</a> &copy; David Heath 2020.</p></p>
 
 <p>The 25/10 Crowdsourcing Liberating Structure was developed by Henri Lipmanowicz and Keith McCandless, shared under a <a href="https://creativecommons.org/licenses/by-nc/3.0/">CC BY-NC 3.0</a> license.</p>

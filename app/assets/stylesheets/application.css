@@ -10,10 +10,10 @@
  * files in this directory. Styles in this file should be added after the last require_* statement.
  * It is generally better to create a new file per style scope.
  *
- *= require_tree .
- *= require_self
  *= require normalize
  *= require skeleton
+ *= require_tree .
+ *= require_self
  */
 
 .admin_challenge_index tr.about_to_be_deleted {
@@ -24,3 +24,14 @@
   background-color: #ffd9b3;
 }
 
+body {
+  margin: 0;
+}
+body, p, ol, ul, td {
+
+  font-family: "Raleway", "HelveticaNeue", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+p {
+  font-size: 14px;
+}
