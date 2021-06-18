@@ -4,6 +4,11 @@
   "repository": "https://github.com/heathd/twentyfiveten",
   "addons": ["scheduler", "heroku-postgresql:hobby-dev", "papertrail"],
   "success_url": "/",
+  "buildpacks": [
+    {
+      "url": "heroku/ruby"
+    }
+  ],
   "env": {
     "RAILS_ENV": "production",
     "SECRET_KEY_BASE": {
