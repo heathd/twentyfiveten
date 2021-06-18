@@ -2,7 +2,11 @@
 
 25/10 crowdsourcing app.
 
-How it works:
+You can use the app at https://twenty-five-ten.herokuapp.com/ or if you're concerned about the privacy of your data you can deploy your own instance on a Heroku free tier and be 100% in control of your own data. Just click [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
+
+The code (c) David Heath 2021 and is offered under the terms of the [GNU Affero General Public License v3.0](/LICENSE).
+
+# How it the app works
 
 ## Scenario: Starting a challenge
 
