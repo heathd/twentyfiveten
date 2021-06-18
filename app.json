@@ -1,0 +1,21 @@
+{
+  "name": "Twenty Five Ten",
+  "description": " A hacky experiment to support the 25/10 crowdsourcing liberating structure online ",
+  "repository": "https://github.com/heathd/twentyfiveten",
+  "addons": ["scheduler", "heroku-postgresql:hobby-dev", "papertrail"],
+  "success_url": "/",
+  "env": {
+    "RAILS_ENV": "production",
+    "SECRET_KEY_BASE": {
+            "description": "This gets generated",
+            "generator": "secret"
+    },
+    "SETUP_BY": {
+            "description": "Who initiated this setup",
+            "value": ""
+    }
+  },
+  "scripts": {
+    "postdeploy": "bundle exec rake db:create db:migrate"
+  }
+}
