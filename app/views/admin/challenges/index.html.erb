@@ -35,16 +35,24 @@
           <%= challenge.participants.count %> participants<br />
           <%= challenge.participants.joins(:proposed_solution).count %> proposals<br />
           <% if challenge.status == 'open' %>
-            <%= link_to 'Open voting', open_voting_admin_challenge_path(challenge), method: :post %>
+            <%= form_tag open_voting_admin_challenge_path(challenge) do %>
+            <%= submit_tag 'Open voting' %>
+            <% end %>
           <% elsif challenge.status == 'voting' %>
             Round: <%= challenge.voting_round %><br />
             Votes cast: <%= challenge.votes_cast_this_round %> / <%= challenge.participants.count %><br />
 
               <% if challenge.voting_round == 5 %>
-                <%= link_to 'Conclude voting', next_round_admin_challenge_path(challenge), method: :post %>
+                <%= form_tag next_round_admin_challenge_path(challenge) do %>
+                <%= submit_tag 'Conclude voting' %>
+                <% end %>
               <% else %>
-                <%= link_to 'Next round', next_round_admin_challenge_path(challenge), method: :post %><br/>
-                <%= link_to 'Reset', reset_admin_challenge_path(challenge), method: :post, data: { confirm: 'Resetting will cancel all votes cast and re-open the call for participation. Are you sure?' } %>
+                <%= form_tag next_round_admin_challenge_path(challenge) do %>
+                <%= submit_tag 'Next round' %>
+                <% end %>
+                <%= form_tag reset_admin_challenge_path(challenge) do %>
+                <%= submit_tag 'Reset', onclick: "confirm('Resetting will cancel all votes cast and re-open the call for participation. Are you sure?')" %>
+                <% end %>
               <% end %>
           <% else # finished %>
             <%= link_to "See results", challenge %><br />
@@ -53,7 +61,12 @@
         </td>
         <td><%= link_to challenge.external_id, challenge %></td>
         <td><span title="<%= challenge.created_at %>"><%= time_ago_in_words(challenge.created_at) %> ago</span></td>
-        <td><%= link_to 'Destroy', [:admin, challenge], method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td>
+          <%= form_for [:admin, challenge], method: :delete do %>
+          <%= submit_tag 'Delete', onclick: "confirm('Are you sure?')" %>
+          <% end %>
+
+          <%= link_to 'Destroy', [:admin, challenge], method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
   </tbody>
