@@ -65,8 +65,7 @@
           <%= form_for [:admin, challenge], method: :delete do %>
           <%= submit_tag 'Delete', onclick: "confirm('Are you sure?')" %>
           <% end %>
-
-          <%= link_to 'Destroy', [:admin, challenge], method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        </td>
       </tr>
     <% end %>
   </tbody>
