@@ -10,7 +10,7 @@ The code (c) David Heath 2021 and is offered under the terms of the [GNU Affero 
 
 ## Scenario: Starting a challenge
 
-- When challenge administrator visits www.twentyfiveten.com
+- When challenge administrator visits https://twenty-five-ten.herokuapp.com/ (or their own deployment)
 - And creates a challenge
 - Then they receive a public challenge URL and a private challenge admin URL
 
