@@ -8,9 +8,9 @@ class VotesController < ApplicationController
   # PATCH/PUT /challenges/:challenge_id/votes/:id
   def update
     if @vote.update(vote_params)
-      redirect_to @challenge, notice: 'Vote was successfully updated.'
+      redirect_to @challenge, notice: 'Vote recorded.'
     else
-      redirect_to @challenge, notice: 'Error casting vote.'
+      redirect_to @challenge, notice: "Sorry, your vote couldn't be saved. Please try again."
     end
   end
 
@@ -28,7 +28,7 @@ class VotesController < ApplicationController
     # Only the round that is currently open can be scored or amended.
     def require_open_round
       unless @challenge.status == Challenge::Status::VOTING && @vote.round == @challenge.voting_round
-        redirect_to @challenge, notice: "Can't change that vote now"
+        redirect_to @challenge, notice: "That vote can't be changed now."
       end
     end
 

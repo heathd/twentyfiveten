@@ -2,7 +2,7 @@
 
 <%= render "challenges/challenge", challenge: @challenge %>
 
-<h2>The top ranking proposals were</h2>
+<h2>Results: proposals ranked by score</h2>
 
 <table>
   <tr>
@@ -22,4 +22,4 @@
 </table>
 
 <p><%= link_to "Download results as CSV", challenge_path(@challenge, format: :csv) %></p>
-<p>There were <%= pluralize(@num_participants, "participant") %> and <%= @num_proposals %> proposals submitted. </p>
+<p>Participants: <%= @num_participants %>. Proposals submitted: <%= @num_proposals %>.</p>

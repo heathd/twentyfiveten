@@ -8,15 +8,15 @@ class ParticipantsController < ApplicationController
   # POST /participants.json
   def create
     if @challenge.status != 'open'
-      redirect_to @challenge, notice: "Can't participate now, challenge already in progress"
+      redirect_to @challenge, notice: "This challenge has already started, so new participants can't join."
     else
       @participant = Participant.new(participant_params.merge(challenge_id: @challenge.id))
 
       if @participant.save
         session[:participant_id] = @participant.id
-        redirect_to @participant.challenge, notice: 'Participant was successfully created.'
+        redirect_to @participant.challenge, notice: "You've joined this challenge."
       else
-        redirect_to @participant.challenge, notice: "Unable to register -- #{@participant.errors[:consent].join(", ")}"
+        redirect_to @participant.challenge, notice: "Unable to join. #{@participant.errors[:consent].join(", ")}."
       end
     end
   end

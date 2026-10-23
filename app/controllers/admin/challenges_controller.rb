@@ -38,7 +38,7 @@ class Admin::ChallengesController < ApplicationController
 
     respond_to do |format|
       if @challenge.save
-        format.html { redirect_to_card 'Challenge was successfully created.' }
+        format.html { redirect_to_card 'Challenge created.' }
         format.json { render :show, status: :created, location: @challenge }
       else
         format.html { render :new }
@@ -51,7 +51,7 @@ class Admin::ChallengesController < ApplicationController
   # PATCH/PUT /challenges/1.json
   def update
     if @challenge.update(challenge_params)
-      redirect_to [:admin, :challenges], notice: 'Challenge was successfully updated.'
+      redirect_to [:admin, :challenges], notice: 'Challenge updated.'
     else
       render :edit
     end
@@ -62,7 +62,7 @@ class Admin::ChallengesController < ApplicationController
   def destroy
     @challenge.destroy
     respond_to do |format|
-      format.html { redirect_to admin_challenges_url, notice: 'Challenge was successfully destroyed.' }
+      format.html { redirect_to admin_challenges_url, notice: 'Challenge deleted.' }
       format.json { head :no_content }
     end
   end
@@ -87,7 +87,7 @@ class Admin::ChallengesController < ApplicationController
     @administrator = Administrator.find_by_administrator_id(session[:administrator_id]) if session[:administrator_id].present?
     unless @administrator
       session.delete(:administrator_id)
-      redirect_to "/", notice: 'Administrator session is required'
+      redirect_to "/", notice: 'Please log in as an administrator.'
     end
   end
 

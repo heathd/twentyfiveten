@@ -9,16 +9,16 @@ class ProposedSolutionsController < ApplicationController
   # POST /challenges/:challenge_id/proposed_solutions
   def create
     if @participant.proposed_solution.present?
-      redirect_to @challenge, notice: 'You have already submitted a proposal.'
+      redirect_to @challenge, notice: "You've already submitted an idea. Use \"Amend proposal\" to change it."
     else
       @proposed_solution = ProposedSolution.new(
         proposed_solution_params.merge(participant_id: @participant.id, challenge_id: @challenge.id)
       )
 
       if @proposed_solution.save
-        redirect_to @challenge, notice: 'Proposed solution was successfully created.'
+        redirect_to @challenge, notice: 'Your idea has been submitted.'
       else
-        redirect_to @challenge, notice: 'Unable to save your proposal.'
+        redirect_to @challenge, notice: "Sorry, your idea couldn't be saved. Please try again."
       end
     end
   end
@@ -26,9 +26,9 @@ class ProposedSolutionsController < ApplicationController
   # PATCH/PUT /challenges/:challenge_id/proposed_solutions/:id
   def update
     if @proposed_solution.update(proposed_solution_params)
-      redirect_to @challenge, notice: 'Proposed solution was successfully updated.'
+      redirect_to @challenge, notice: 'Your idea has been updated.'
     else
-      redirect_to @challenge, notice: 'Unable to save your proposal.'
+      redirect_to @challenge, notice: "Sorry, your idea couldn't be saved. Please try again."
     end
   end
 
@@ -45,7 +45,7 @@ class ProposedSolutionsController < ApplicationController
 
     def require_open_challenge
       unless @challenge.status == Challenge::Status::OPEN
-        redirect_to @challenge, notice: "Can't change proposals now, challenge already in progress"
+        redirect_to @challenge, notice: "Voting has started, so ideas can no longer be changed."
       end
     end
 

@@ -4,7 +4,9 @@
 
 <p><%= button_to "Amend proposal", @challenge, params: {amend_proposal: "1"}, method: :get, class: "secondary outline" %></p>
 
-<p>Thanks for your proposal, your challenge administrator will let you know when voting is open. There are <%= pluralize(@num_participants, "participant") %> and <%= @num_proposals %> proposals submitted so far </p>
+<p>Thanks for your proposal, your challenge administrator will let you know when voting is open.</p>
+
+<p>Participants so far: <%= @num_participants %>. Proposals submitted: <%= @num_proposals %>.</p>
 
 <% if params[:check_if_round] %>
   <p><strong>Not yet!</strong></p>

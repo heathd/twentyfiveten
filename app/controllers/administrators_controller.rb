@@ -11,7 +11,7 @@ class AdministratorsController < ApplicationController
     else
       administrator = Administrator.create!
       session[:administrator_id] = administrator.administrator_id
-      redirect_to admin_challenges_path, notice: 'Administrator was successfully created.'
+      redirect_to admin_challenges_path, notice: "You're registered as an administrator."
     end
   end
 
@@ -23,7 +23,7 @@ class AdministratorsController < ApplicationController
       session[:administrator_id] = administrator.administrator_id
       redirect_to admin_challenges_path, notice: "Logged in successfully"
     else
-      redirect_to root_path, notice: 'Administrator not found'
+      redirect_to root_path, notice: 'No administrator found with that code.'
     end
   end
 
