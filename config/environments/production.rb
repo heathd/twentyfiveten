@@ -55,8 +55,9 @@ Rails.application.configure do
   # Prepend all log lines with the following tags.
   config.log_tags = [ :request_id ]
 
-  # Use a different cache store in production.
-  # config.cache_store = :mem_cache_store
+  # Rate limiting counts requests in the cache. A per-process memory store is
+  # enough for a single dyno; use a shared store (e.g. Redis) if you scale out.
+  config.cache_store = :memory_store
 
   # Use a real queuing backend for Active Job (and separate queues per environment).
   # config.active_job.queue_adapter     = :resque

@@ -1,4 +1,6 @@
 class VotesController < ApplicationController
+  rate_limit to: 30, within: 5.minutes, by: -> { session[:participant_id] || request.remote_ip }
+
   before_action :set_challenge
   before_action :set_vote
   before_action :require_open_round

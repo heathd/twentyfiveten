@@ -1,4 +1,7 @@
 class ParticipantsController < ApplicationController
+  # Generous, because a whole workshop may join from one shared office IP.
+  rate_limit to: 300, within: 10.minutes, only: :create
+
   before_action :set_challenge, only: [:create]
 
   # POST /participants
