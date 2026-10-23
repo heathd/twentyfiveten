@@ -3,8 +3,11 @@ require 'rails_helper'
 
 RSpec.describe "rake expunge_data" do
 
-  before do
+  before(:all) do
     Twentyfiveten::Application.load_tasks
+  end
+
+  before do
     Rake::Task.define_task(:environment)
   end
 
