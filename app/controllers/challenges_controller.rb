@@ -21,7 +21,7 @@ class ChallengesController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_challenge
-      @challenge = Challenge.find_by_external_id(params[:id])
+      @challenge = Challenge.find_by_external_id!(params[:id])
     end
 
     def set_participant

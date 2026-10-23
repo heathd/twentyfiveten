@@ -1,83 +1,62 @@
 class ProposedSolutionsController < ApplicationController
   before_action :set_challenge
-  before_action :set_proposed_solution, only: [:show, :edit, :update, :destroy]
+  before_action :set_participant
+  before_action :require_open_challenge
+  before_action :set_proposed_solution, only: [:update]
 
-  # GET /proposed_solutions
-  # GET /proposed_solutions.json
-  def index
-    @proposed_solutions = ProposedSolution.all
-  end
-
-  # GET /proposed_solutions/1
-  # GET /proposed_solutions/1.json
-  def show
-  end
-
-  # GET /proposed_solutions/new
-  def new
-    @proposed_solution = ProposedSolution.new
-  end
-
-  # GET /proposed_solutions/1/edit
-  def edit
-  end
-
-  # POST /proposed_solutions
-  # POST /proposed_solutions.json
+  # POST /challenges/:challenge_id/proposed_solutions
   def create
-    @proposed_solution = ProposedSolution.new(proposed_solution_params)
+    if @participant.proposed_solution.present?
+      redirect_to @challenge, notice: 'You have already submitted a proposal.'
+    else
+      @proposed_solution = ProposedSolution.new(
+        proposed_solution_params.merge(participant_id: @participant.id, challenge_id: @challenge.id)
+      )
 
-    respond_to do |format|
       if @proposed_solution.save
-        format.html { redirect_to [@challenge], notice: 'Proposed solution was successfully created.' }
-        format.json { render :show, status: :created, location: @proposed_solution }
+        redirect_to @challenge, notice: 'Proposed solution was successfully created.'
       else
-        format.html { render :new }
-        format.json { render json: @proposed_solution.errors, status: :unprocessable_entity }
+        redirect_to @challenge, notice: 'Unable to save your proposal.'
       end
     end
   end
 
-  # PATCH/PUT /proposed_solutions/1
-  # PATCH/PUT /proposed_solutions/1.json
+  # PATCH/PUT /challenges/:challenge_id/proposed_solutions/:id
   def update
-    respond_to do |format|
-      if @proposed_solution.update(proposed_solution_params)
-        format.html { redirect_to [@challenge], notice: 'Proposed solution was successfully updated.' }
-        format.json { render :show, status: :ok, location: @proposed_solution }
-      else
-        format.html { render :edit }
-        format.json { render json: @proposed_solution.errors, status: :unprocessable_entity }
-      end
-    end
-  end
-
-  # DELETE /proposed_solutions/1
-  # DELETE /proposed_solutions/1.json
-  def destroy
-    @proposed_solution.destroy
-    respond_to do |format|
-      format.html { redirect_to proposed_solutions_url, notice: 'Proposed solution was successfully destroyed.' }
-      format.json { head :no_content }
+    if @proposed_solution.update(proposed_solution_params)
+      redirect_to @challenge, notice: 'Proposed solution was successfully updated.'
+    else
+      redirect_to @challenge, notice: 'Unable to save your proposal.'
     end
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
     def set_challenge
-      @challenge = Challenge.find_by_external_id(params[:challenge_id])
+      @challenge = Challenge.find_by_external_id!(params[:challenge_id])
     end
 
-    # Use callbacks to share common setup or constraints between actions.
+    # Only a participant of this challenge may touch proposals. A missing or
+    # foreign participant id in the session raises RecordNotFound (404).
+    def set_participant
+      @participant = Participant.where(challenge_id: @challenge.id).find(session[:participant_id])
+    end
+
+    def require_open_challenge
+      unless @challenge.status == Challenge::Status::OPEN
+        redirect_to @challenge, notice: "Can't change proposals now, challenge already in progress"
+      end
+    end
+
+    # Scoped to the current participant, so other people's proposals look like they don't exist.
     def set_proposed_solution
-      @proposed_solution = ProposedSolution.find(params[:id])
+      @proposed_solution = ProposedSolution.where(
+        participant_id: @participant.id,
+        challenge_id: @challenge.id
+      ).find(params[:id])
     end
 
-    # Only allow a list of trusted parameters through.
+    # Ownership is never taken from params.
     def proposed_solution_params
-      params.require(:proposed_solution).permit(:narrative, :first_step).merge(
-        participant_id: session[:participant_id],
-        challenge_id: @challenge.id
-      )
+      params.require(:proposed_solution).permit(:narrative, :first_step)
     end
 end

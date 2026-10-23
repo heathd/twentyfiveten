@@ -77,17 +77,18 @@ class Admin::ChallengesController < ApplicationController
   end
 
   def require_administrator
-    @administrator_id = session[:administrator_id]
-    @administrator = Administrator.find_by_administrator_id(@administrator_id)
-    unless @administrator_id.present?
+    @administrator = Administrator.find_by_administrator_id(session[:administrator_id]) if session[:administrator_id].present?
+    unless @administrator
+      session.delete(:administrator_id)
       redirect_to "/", notice: 'Administrator session is required'
     end
   end
 
   private
     # Use callbacks to share common setup or constraints between actions.
+    # Scoped to the logged-in administrator: external_id is public (it is in the participant URL).
     def set_challenge
-      @challenge = Challenge.find_by_external_id(params[:id])
+      @challenge = Challenge.where(administrator: @administrator).find_by_external_id!(params[:id])
     end
 
     # Only allow a list of trusted parameters through.

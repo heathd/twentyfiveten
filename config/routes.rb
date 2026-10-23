@@ -15,7 +15,7 @@ Rails.application.routes.draw do
   resources :challenges, only: :show do
     resources :participants, only: :create
     resources :votes, only: :update
-    resources :proposed_solutions
+    resources :proposed_solutions, only: [:create, :update]
   end
 
   get :privacy, controller: :home

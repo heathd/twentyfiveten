@@ -1,6 +1,5 @@
 class ParticipantsController < ApplicationController
   before_action :set_challenge, only: [:create]
-  before_action :set_participant, only: [:show, :edit, :update, :destroy]
 
   # POST /participants
   # POST /participants.json
@@ -21,10 +20,6 @@ class ParticipantsController < ApplicationController
 
   private
     # Use callbacks to share common setup or constraints between actions.
-    def set_participant
-      @participant = Participant.find(params[:id])
-    end
-
     def set_challenge
       @challenge = Challenge.find_by_external_id(params[:challenge_id])
       unless @challenge
