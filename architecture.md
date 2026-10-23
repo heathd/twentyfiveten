@@ -18,9 +18,9 @@ It is deliberately minimal and privacy-conscious:
 | Framework | Rails 8.1 (`~> 8.1.0`), `load_defaults 8.1` |
 | Database | PostgreSQL (`pg`) |
 | Server | Puma (`config/puma.rb`, 5 threads unless `RAILS_MAX_THREADS` is set) |
-| Frontend | Server-rendered ERB and Sprockets/Sass. CSS is Skeleton 2.0.4 and normalize.css 8.0.1, vendored in `vendor/assets/stylesheets`. There is **no JavaScript**: the layout loads none, and Turbo, Stimulus and Tailwind are not used. |
+| Frontend | Server-rendered ERB. Styling is [Pico CSS](https://picocss.com) v2.1.1 (vendored, unmodified; see `vendor/assets/README.md`) plus the app's own SCSS, compiled by Dart Sass (`dartsass-rails`) into `app/assets/builds/application.css`, which is not checked in. Assets are served by **Propshaft**, which publishes only the built CSS, Pico and images. There is **no JavaScript**: the layout loads none, and Turbo, Stimulus and Tailwind are not used. |
 | Tests | RSpec (request, model and rake specs), with Timecop and DatabaseCleaner |
-| CI | `bin/ci` locally and in GitHub Actions (`.github/workflows/ruby.yml`), with Postgres 14 |
+| CI | `bin/ci` locally and in GitHub Actions (`.github/workflows/ruby.yml`), with Postgres 14. It builds the CSS, runs the specs, builds the production assets, and runs the security scans |
 | Deploy | Heroku. `Procfile` runs `web` (Puma) and a `release` phase (`rails db:migrate`) |
 
 ## Domain model
@@ -102,7 +102,7 @@ CSRF protection is on (per-form tokens). It stops other websites forging request
 |---|---|---|
 | HTTPS | `config/environments/production.rb` | `force_ssl`: HTTP redirects to HTTPS (301 for GET, 308 otherwise), cookies are `Secure`. HSTS is currently **one day** with no subdomains; remove the `ssl_options` line to get Rails' default of two years once it has run cleanly |
 | Session cookie | `config/initializers/session_store.rb` | Name `_twentyfiveten_session`, `HttpOnly`, `SameSite=Lax`, expires after 30 days (the data retention period) |
-| Content Security Policy | `config/initializers/content_security_policy.rb` | Everything denied by default; only same-origin styles and images; no scripts. Enforced in production and test, report-only in development (Rails' error pages use inline code). If you add JavaScript or load anything from another origin, the policy must be changed |
+| Content Security Policy | `config/initializers/content_security_policy.rb` | Everything denied by default; only same-origin styles and images (images may also be `data:` URIs, because Pico draws its checkmarks and select arrows that way); no scripts. Enforced in production and test, report-only in development (Rails' error pages use inline code). If you add JavaScript or load anything from another origin, the policy must be changed |
 | Permissions-Policy | `config/initializers/security_headers.rb` | Camera, microphone, geolocation, payment, USB and motion sensors off. Set directly because Rails' helper still emits the deprecated `Feature-Policy` header |
 | Other headers | Rails defaults | `X-Content-Type-Options`, `Referrer-Policy`, `X-Frame-Options` |
 | Rate limiting | Rails `rate_limit` in each controller | See below |
@@ -144,7 +144,8 @@ app/views/admin/challenges/                               Admin dashboard and fo
 config/initializers/    Session store, CSP and other security headers
 lib/challenge_csv_formatter.rb                            CSV export
 lib/tasks/scheduler.rake                                  Data expunge job
-vendor/assets/stylesheets/                                Vendored Skeleton and normalize.css
+app/assets/stylesheets/                                   SCSS partials, compiled to app/assets/builds by `dartsass-rails`
+vendor/assets/stylesheets/pico.css                        Vendored Pico CSS (provenance in vendor/assets/README.md)
 spec/                                                     Request, model and rake task specs
 bin/ci, config/ci.rb                                      CI steps
 Procfile                                                  Heroku web and release processes

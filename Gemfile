@@ -5,14 +5,12 @@ ruby "3.3.13"
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 8.1.0'
-# The original asset pipeline for Rails [https://github.com/rails/sprockets-rails]
-gem "sprockets-rails"
+# The asset pipeline: serves files from app/assets and vendor/assets with digested names
+gem "propshaft"
 # Use postgresql as the database for Active Record
 gem 'pg', '>= 0.18'
 # Use Puma as the app server
 gem 'puma'
-# Use JavaScript with ESM import maps [https://github.com/rails/importmap-rails]
-gem "importmap-rails"
 # Hotwire's SPA-like page accelerator [https://turbo.hotwired.dev]
 # gem "turbo-rails"
 # Hotwire's modest JavaScript framework [https://stimulus.hotwired.dev]
@@ -20,8 +18,8 @@ gem "importmap-rails"
 
 # Use Tailwind CSS [https://github.com/rails/tailwindcss-rails]
 # gem "tailwindcss-rails"
-# Use SCSS for stylesheets
-gem 'sass-rails'
+# Use SCSS for stylesheets, compiled with the current Dart Sass (replaces the deprecated libsass)
+gem 'dartsass-rails'
 # Transpile app-like JavaScript. Read more: https://github.com/rails/webpacker
 # gem 'webpacker'
 # Turbolinks makes navigating your web application faster. Read more: https://github.com/turbolinks/turbolinks

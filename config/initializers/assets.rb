@@ -1,14 +1,14 @@
-# Be sure to restart your server when you modify this file.
+# Propshaft publishes everything on its asset paths. Keep only what this app serves:
+# the CSS built from the SCSS (app/assets/builds), Pico (vendor/assets/stylesheets) and images.
+#
+# Dropped from the paths:
+#  * app/assets/stylesheets: the SCSS sources, which dartsass-rails compiles into app/assets/builds
+#  * the JavaScript and CSS that Rails' frameworks bring along (Action Cable, Action Text, Trix,
+#    Active Storage, rails-ujs), none of which this app uses
+Rails.application.config.after_initialize do |app|
+  scss_sources = Rails.root.join("app/assets/stylesheets").to_s
 
-# Version of your assets, change this if you want to expire all your assets.
-Rails.application.config.assets.version = '1.0'
-
-# Add additional assets to the asset load path.
-# Rails.application.config.assets.paths << Emoji.images_path
-# Add Yarn node_modules folder to the asset load path.
-Rails.application.config.assets.paths << Rails.root.join('node_modules')
-
-# Precompile additional assets.
-# application.js, application.css, and all non-JS/CSS in the app/assets
-# folder are already added.
-# Rails.application.config.assets.precompile += %w( admin.js admin.css )
+  app.config.assets.paths.select! do |path|
+    path.to_s.start_with?(Rails.root.to_s) && path.to_s != scss_sources
+  end
+end

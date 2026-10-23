@@ -1,0 +1,33 @@
+// Place all the styles related to the admin/challenges controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: https://sass-lang.com/
+
+// Colour code to show age. Translucent, so the table's own colours (and dark mode) show through.
+.admin_challenge_index tr.old > td {
+  background-color: rgba(255, 153, 0, 0.18);
+}
+.admin_challenge_index tr.about_to_be_deleted > td {
+  background-color: rgba(220, 38, 38, 0.18);
+}
+
+// The list is wide: scroll it sideways on a narrow screen instead of overflowing the page.
+.table-scroll {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+.table-scroll table {
+  min-width: 40em;
+}
+
+// Destructive actions (Reset, Delete)
+input.danger,
+button.danger {
+  --pico-background-color: var(--pico-del-color);
+  --pico-border-color: var(--pico-del-color);
+  --pico-color: #fff;
+}
+
+// The optional context box on the new/edit challenge form
+#challenge_challenge_context {
+  height: 10em;
+}

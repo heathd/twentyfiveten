@@ -1,0 +1,46 @@
+// Place all the styles related to the Challenges controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: https://sass-lang.com/
+
+// The question being asked. Both boxes use Pico's card colours, so they work in dark mode too.
+.challenge {
+  margin: var(--pico-spacing) 0;
+  padding: var(--pico-block-spacing-vertical) var(--pico-block-spacing-horizontal);
+  border-left: 0.35rem solid var(--pico-primary-background);
+  border-radius: var(--pico-border-radius);
+  background: var(--pico-card-sectioning-background-color);
+
+  p {
+    font-size: 1.15em;
+  }
+
+  // the last paragraph's own bottom margin would double the box's padding
+  > :last-child {
+    margin-bottom: 0;
+  }
+}
+
+// An idea someone proposed
+.proposed_solution {
+  margin: var(--pico-spacing) 0;
+  padding: var(--pico-block-spacing-vertical) var(--pico-block-spacing-horizontal);
+  border: 1px solid var(--pico-card-border-color);
+  border-radius: var(--pico-border-radius);
+  background: var(--pico-card-background-color);
+
+  p {
+    font-size: 1.05em;
+  }
+
+  > :last-child {
+    margin-bottom: 0;
+  }
+}
+
+.proposal_form .narrative textarea {
+  height: 12em;
+}
+
+.proposal_form .first_step textarea {
+  height: 6em;
+}

@@ -1,0 +1,11 @@
+// The app's own styles, compiled by Dart Sass (dartsass-rails) into
+// app/assets/builds/application.css. Pico itself is plain CSS and is linked
+// separately in the layout (vendor/assets/stylesheets/pico.css).
+//
+// Each partial holds the styles for one area. Sass partials must be listed here to be included.
+
+@use "layout";
+@use "home";
+@use "challenges";
+@use "votes";
+@use "admin/challenges" as admin_challenges;

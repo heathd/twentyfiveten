@@ -3,11 +3,12 @@
 // You can use Sass (SCSS) here: https://sass-lang.com/
 
 // The five score buttons: one row, equal width, large enough to tap on a phone.
+// Unselected scores are outlined; the score already cast is solid.
 .vote-buttons {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
-  gap: 8px;
-  margin: 1em 0 0.25em;
+  gap: 0.5rem;
+  margin: var(--pico-spacing) 0 0.25rem;
 
   form {
     margin: 0;
@@ -15,24 +16,17 @@
 
   input[type="submit"] {
     width: 100%;
-    height: 56px;
+    height: 3.5rem;
+    margin: 0;
     padding: 0;
-    font-size: 22px;
-    letter-spacing: 0;
-  }
-
-  // the score already cast, shown when amending a vote
-  input[type="submit"].selected {
-    background-color: #33C3F0;
-    border-color: #33C3F0;
-    color: #fff;
+    font-size: 1.4rem;
   }
 }
 
 .vote-scale {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 1em;
-  color: #555;
-  font-size: 14px;
+  margin-bottom: var(--pico-spacing);
+  color: var(--pico-muted-color);
+  font-size: 0.875rem;
 }

@@ -1,7 +1,6 @@
-<p id="notice"><%= notice %></p>
-
 <h1>Challenges</h1>
 
+<p><%= link_to 'New challenge', new_admin_challenge_path, role: "button" %></p>
 
 <div class="table-scroll">
 <table class="admin_challenge_index">
@@ -16,11 +15,6 @@
   </thead>
 
   <tbody>
-    <tr>
-      <td colspan="5">
-        <%= link_to 'New Challenge', new_admin_challenge_path %>
-      </td>
-    </tr>
     <% @challenges.each do |challenge| %>
       <tr class="<%= challenge.age_class %>" >
         <td>
@@ -52,7 +46,7 @@
                 <%= submit_tag 'Next round' %>
                 <% end %>
                 <%= form_tag reset_admin_challenge_path(challenge) do %>
-                <%= submit_tag 'Reset', onclick: "confirm('Resetting will cancel all votes cast and re-open the call for participation. Are you sure?')" %>
+                <%= submit_tag 'Reset', class: "danger", data: { confirm: "Resetting will cancel all votes cast and re-open the call for participation. Are you sure?" } %>
                 <% end %>
               <% end %>
           <% else # finished %>
@@ -64,7 +58,7 @@
         <td><span title="<%= challenge.created_at %>"><%= time_ago_in_words(challenge.created_at) %> ago</span></td>
         <td>
           <%= form_for [:admin, challenge], method: :delete do %>
-          <%= submit_tag 'Delete', onclick: "confirm('Are you sure?')" %>
+          <%= submit_tag 'Delete', class: "danger", data: { confirm: "Are you sure?" } %>
           <% end %>
         </td>
       </tr>

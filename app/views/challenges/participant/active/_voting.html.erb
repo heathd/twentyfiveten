@@ -31,13 +31,13 @@
 
 <% else %>
   <h3>You voted: <%= current_vote.vote %></h3>
-  <p><%= button_to "Amend vote", challenge, params: {amend_vote: "1"}, method: :get %></p>
+  <p><%= button_to "Amend vote", challenge, params: {amend_vote: "1"}, method: :get, class: "secondary outline" %></p>
 
   <p>Thanks for voting, your administrator will let you know when the next round of voting is open.</p>
 
   <% if params[:check_if_round] %>
     <p><strong>Not yet!</strong></p>
   <% end %>
-  <p><%= button_to "Check if next round is open", challenge, method: :get, class:"button-primary", params: {check_if_round: current_vote.round+1 } %></p>
+  <p><%= button_to "Check if next round is open", challenge, method: :get, params: {check_if_round: current_vote.round+1 } %></p>
 
 <% end %>

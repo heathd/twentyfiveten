@@ -4,7 +4,8 @@
 #
 # The pages serve no JavaScript, no inline styles and nothing from other
 # origins: just HTML plus one same-origin stylesheet. So everything is denied
-# by default and only same-origin styles and images (the favicon) are allowed.
+# by default and only same-origin styles and images are allowed. Images may also be
+# data: URIs, because Pico draws its checkmarks, select arrows and spinners that way.
 #
 # If you add JavaScript or load anything from another origin, you must allow it
 # here, or the browser will block it.
@@ -12,7 +13,7 @@ Rails.application.configure do
   config.content_security_policy do |policy|
     policy.default_src     :none
     policy.style_src       :self
-    policy.img_src         :self
+    policy.img_src         :self, :data
     policy.base_uri        :self
     policy.form_action     :self
     policy.frame_ancestors :none

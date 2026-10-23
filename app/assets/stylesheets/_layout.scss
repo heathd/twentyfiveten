@@ -1,0 +1,41 @@
+// Page chrome: header, flash message, error box, footer. Colours come from Pico's
+// theme variables, so they follow its light and dark themes.
+
+body > header nav a.brand {
+  text-decoration: none;
+}
+
+// The message left by the previous action ("Voting open", "Logged out", ...)
+.notice {
+  margin-bottom: var(--pico-spacing);
+  padding: var(--pico-spacing) calc(var(--pico-spacing) * 1.25);
+  border: 1px solid var(--pico-muted-border-color);
+  border-left: 0.35rem solid var(--pico-primary-background);
+  border-radius: var(--pico-border-radius);
+  background: var(--pico-card-sectioning-background-color);
+}
+
+// Rails' form error summary
+#error_explanation {
+  margin-bottom: var(--pico-spacing);
+  padding: var(--pico-spacing);
+  border-left: 0.35rem solid var(--pico-del-color);
+  border-radius: var(--pico-border-radius);
+  background: var(--pico-card-sectioning-background-color);
+
+  h2 {
+    margin-bottom: calc(var(--pico-spacing) / 2);
+    font-size: 1.1rem;
+    color: var(--pico-del-color);
+  }
+
+  ul {
+    margin-bottom: 0;
+  }
+}
+
+body > footer {
+  margin-top: calc(var(--pico-spacing) * 3);
+  border-top: 1px solid var(--pico-muted-border-color);
+  color: var(--pico-muted-color);
+}

@@ -1,2 +1,22 @@
 #!/usr/bin/env ruby
-exec "./bin/rails", "server", *ARGV
+# Starts the Rails server together with the Sass watcher, so edits to
+# app/assets/stylesheets are rebuilt as you save. Arguments go to `rails server`,
+# for example: bin/dev -p 3001
+#
+# Both processes stop together on Ctrl-C.
+
+# Build once first, so the first request doesn't race the watcher
+system("./bin/rails", "dartsass:build", exception: true)
+
+watcher = Process.spawn("./bin/rails", "dartsass:watch")
+begin
+  server_ok = system("./bin/rails", "server", *ARGV)
+ensure
+  begin
+    Process.kill("TERM", watcher)
+  rescue Errno::ESRCH
+    # already gone
+  end
+  Process.wait(watcher)
+end
+exit(server_ok ? 0 : 1)

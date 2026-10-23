@@ -30,6 +30,12 @@ rescue ActiveRecord::PendingMigrationError => e
   puts e.to_s.strip
   exit 1
 end
+# The layout links app/assets/builds/application.css, which is built from the SCSS and not
+# checked in. Build it if this is a fresh checkout. (bin/ci always builds it first.)
+unless Rails.root.join("app/assets/builds/application.css").exist?
+  system(Rails.root.join("bin/rails").to_s, "dartsass:build", exception: true)
+end
+
 RSpec.configure do |config|
   # Rate limit counters live in the cache; don't let them leak between examples.
   config.before { Rails.cache.clear }

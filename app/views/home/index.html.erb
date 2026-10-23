@@ -1,8 +1,7 @@
-<p id="notice"><%= notice %></p>
-
-<h1 class="title">25/10 Crowdsourcing</h1>
-
-<p class="subhead">Rapidly generate and sift a group’s most powerful actionable ideas</p>
+<hgroup>
+  <h1>25/10 Crowdsourcing</h1>
+  <p>Rapidly generate and sift a group’s most powerful actionable ideas</p>
+</hgroup>
 
 <p>A tool to support <a href="http://www.liberatingstructures.com/12-2510-crowd-sourcing/">25/10 Crowdsourcing</a> virtually by <a href="https://ko-fi.com/twentyfivetenapp">David Heath</a>.</p>
 
@@ -60,11 +59,11 @@
 
 </div>
 
-<p><a href="https://github.com/heathd/twentyfiveten/blob/master/README.md">More in readme</a></p>
+<p><a href="https://github.com/heathd/twentyfiveten/blob/main/README.md">More in readme</a></p>
 
 <h3>No warranty</h3>
 
-<p>This service is a protype and is offered as-is without warranty of any kind, express or implied, including but not limited to the warranties of merchantibility or fitness for a particular purpose. Source code is available on <a href="https://github.com/heathd/twentyfiveten">github</a> under a <a href="https://github.com/heathd/twentyfiveten/blob/master/LICENSE">GNU Affero General Public License v3.0</a>.</p>
+<p>This service is a protype and is offered as-is without warranty of any kind, express or implied, including but not limited to the warranties of merchantibility or fitness for a particular purpose. Source code is available on <a href="https://github.com/heathd/twentyfiveten">github</a> under a <a href="https://github.com/heathd/twentyfiveten/blob/main/LICENSE">GNU Affero General Public License v3.0</a>.</p>
 
 <h3>Feedback</h3>
 
@@ -102,11 +101,11 @@
   <p><%= link_to "View all of your challenges", [:admin, :challenges] %></p>
   <p><%= link_to "Create a challenge", new_admin_challenge_path %></p>
 
-  <%= button_to "Logout", logout_administrators_path %>
+  <%= button_to "Logout", logout_administrators_path, class: "secondary outline" %>
 
 <% else %>
 
-  <%= button_to "I consent to the processing of my data, register me as an administrator", [:administrators], action: :create, class: "button-primary"%>
+  <%= button_to "I consent to the processing of my data, register me as an administrator", [:administrators], action: :create %>
 
   <p>or</p>
   <h2>Login using an administrator code</h2>

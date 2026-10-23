@@ -12,7 +12,8 @@ RSpec.describe "Security headers and session cookie", type: :request do
       csp = response.headers["Content-Security-Policy"]
       expect(csp).to include("default-src 'none'")
       expect(csp).to include("style-src 'self'")
-      expect(csp).to include("img-src 'self'")
+      # data: because Pico draws its checkmarks and select arrows as inline SVG
+      expect(csp).to include("img-src 'self' data:")
       expect(csp).to include("base-uri 'self'")
       expect(csp).to include("form-action 'self'")
       expect(csp).to include("frame-ancestors 'none'")
@@ -35,14 +36,20 @@ RSpec.describe "Security headers and session cookie", type: :request do
 
     # The CSP above is only safe because pages carry no inline code. If this
     # fails, either remove the inline code or relax the policy deliberately.
+    # Admin pages are included: that is where inline onclick handlers used to be.
     it "is compatible with the pages: no inline scripts, styles or event handlers" do
-      get root_path
-      get challenge_path(challenge)
+      post login_administrators_path, params: { administrator_id: administrator.administrator_id }
 
-      expect(response.body).not_to match(/<script/i)
-      expect(response.body).not_to match(/<style/i)
-      expect(response.body).not_to match(/\sstyle=/i)
-      expect(response.body).not_to match(/\son(click|load|submit|error)=/i)
+      [root_path, privacy_path, challenge_path(challenge), admin_challenges_path,
+       new_admin_challenge_path, edit_admin_challenge_path(challenge)].each do |path|
+        get path
+        body = response.body
+
+        expect(body).not_to match(/<script/i), "inline <script> on #{path}"
+        expect(body).not_to match(/<style/i), "inline <style> on #{path}"
+        expect(body).not_to match(/\sstyle=/i), "style attribute on #{path}"
+        expect(body).not_to match(/\son[a-z]+=/i), "inline event handler on #{path}"
+      end
     end
   end
 

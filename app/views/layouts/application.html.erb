@@ -7,26 +7,32 @@
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
-    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
-    <%# javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <%= stylesheet_link_tag "pico", "application", media: "all" %>
   </head>
 
   <body>
-    <div class="container">
+    <header class="container">
+      <nav>
+        <ul>
+          <li><%= link_to "25/10 Crowdsourcing", root_path, class: "brand" %></li>
+        </ul>
+        <% if session[:administrator_id].present? %>
+          <ul>
+            <li><%= link_to "My challenges", admin_challenges_path %></li>
+          </ul>
+        <% end %>
+      </nav>
+    </header>
 
-    <!-- columns should be the immediate child of a .row -->
-      <div class="row">
-        <div class="one column"></div>
-        <div class="ten columns"><%= yield %></div>
-        <div class="one column"></div>
-      </div>
+    <main class="container">
+      <% if notice.present? %>
+        <p class="notice" role="status"><%= notice %></p>
+      <% end %>
+      <%= yield %>
+    </main>
 
-      <div class="row footer">
-        <div class="one column"></div>
-        <div class="ten columns"><%= render "footer" %></div>
-        <div class="one column"></div>
-      </div>
-    </div>
-
+    <footer class="container">
+      <%= render "footer" %>
+    </footer>
   </body>
 </html>

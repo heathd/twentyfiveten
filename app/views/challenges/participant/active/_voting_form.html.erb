@@ -3,7 +3,7 @@
     <%= form_for [challenge, current_vote], html: { id: "vote_form_#{score}" } do |f| %>
       <%= f.hidden_field :vote, value: score, id: nil %>
       <%= f.submit score.to_s,
-            class: ("selected" if current_vote.vote == score),
+            class: (current_vote.vote == score ? "selected" : "outline"),
             "aria-pressed": (current_vote.vote == score).to_s %>
     <% end %>
   <% end %>

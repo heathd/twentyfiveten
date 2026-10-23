@@ -24,6 +24,47 @@ RSpec.describe "Mobile friendly markup", type: :request do
     end
   end
 
+  describe "the page structure" do
+    # a method, not let: it must re-read the response after each request
+    def page
+      Nokogiri::HTML(response.body)
+    end
+
+    it "has a header with the app name, a main area and a footer" do
+      get root_path
+
+      expect(page.at_css("body > header.container nav a.brand")&.text).to eq("25/10 Crowdsourcing")
+      expect(page.at_css("body > main.container")).to be_present
+      expect(page.at_css("body > footer.container")).to be_present
+    end
+
+    it "links to the administrator's challenges only when logged in as one" do
+      get root_path
+      expect(page.css("body > header a").map(&:text)).not_to include("My challenges")
+
+      post administrators_path
+      get root_path
+      expect(page.css("body > header a").map(&:text)).to include("My challenges")
+    end
+
+    it "shows the message from the previous action once, in a status region" do
+      post login_administrators_path, params: { administrator_id: administrator.administrator_id }
+      follow_redirect!
+
+      notices = page.css("main .notice")
+      expect(notices.size).to eq(1)
+      expect(notices.first["role"]).to eq("status")
+      expect(notices.first.text).to eq("Logged in successfully")
+    end
+
+    it "shows no empty message area when there is nothing to say" do
+      get root_path
+
+      expect(page.css(".notice")).to be_empty
+      expect(page.css("#notice")).to be_empty
+    end
+  end
+
   describe "the voting page" do
     let!(:me) do
       post challenge_participants_path(challenge), params: { consent: "1" }
@@ -39,7 +80,10 @@ RSpec.describe "Mobile friendly markup", type: :request do
       challenge.open_voting!
     end
 
-    let(:page) { Nokogiri::HTML(response.body) }
+    # a method, not let: it must re-read the response after each request
+    def page
+      Nokogiri::HTML(response.body)
+    end
 
     it "shows the five scores as one labelled group of buttons" do
       get challenge_path(challenge)
@@ -83,6 +127,21 @@ RSpec.describe "Mobile friendly markup", type: :request do
   end
 
   describe "the admin challenge list" do
+    it "marks Reset and Delete as dangerous and asks for confirmation through data attributes, not inline handlers" do
+      post login_administrators_path, params: { administrator_id: administrator.administrator_id }
+      challenge.update!(status: Challenge::Status::VOTING, voting_round: 1)
+
+      get admin_challenges_path
+      page = Nokogiri::HTML(response.body)
+
+      %w[Reset Delete].each do |label|
+        button = page.at_css(%(input[type="submit"][value="#{label}"]))
+        expect(button["class"]).to include("danger")
+        expect(button["data-confirm"]).to be_present
+        expect(button["onclick"]).to be_nil
+      end
+    end
+
     it "can scroll sideways on a narrow screen instead of overflowing the page" do
       post login_administrators_path, params: { administrator_id: administrator.administrator_id }
 
