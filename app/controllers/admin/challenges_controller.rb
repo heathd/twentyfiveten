@@ -1,5 +1,11 @@
 class Admin::ChallengesController < ApplicationController
   before_action :require_administrator
+
+  # A lifecycle action that isn't allowed from the challenge's current state
+  # (for example a double click, or a stale page): say so and go back to the list.
+  rescue_from Challenge::InvalidTransition do |error|
+    redirect_to [:admin, :challenges], notice: error.message
+  end
   before_action :set_challenge, only: [:show, :edit, :update, :destroy, :open_voting, :next_round, :reset]
 
   # GET /challenges
@@ -68,7 +74,8 @@ class Admin::ChallengesController < ApplicationController
 
   def next_round
     @challenge.next_round!
-    redirect_to [:admin, :challenges], notice: "Round #{@challenge.voting_round} open"
+    notice = @challenge.status == Challenge::Status::FINISHED ? "Voting finished" : "Round #{@challenge.voting_round} open"
+    redirect_to [:admin, :challenges], notice: notice
   end
 
   def reset

@@ -64,6 +64,8 @@ open ──open_voting!──▶ voting (round 1) ──next_round! ×4──▶
 4. **`next_round!`** increments the round. After round 5 the status becomes `finished` and `voting_round` is cleared.
 5. **`reset!`** returns the challenge to `open` and destroys the votes.
 
+`open_voting!` is only allowed from `open`, and `next_round!` only while `voting`; otherwise they raise `Challenge::InvalidTransition`, which the admin controller turns into a notice and a redirect. `reset!` is allowed from any state, and clears the voting round. Each transition takes a row lock (`with_lock`) and re-reads the challenge before checking its state, so a double click can't schedule the votes twice.
+
 While voting, only the vote for the **current** round can be scored or amended. Earlier and later rounds, and any vote once the challenge is finished, are locked.
 
 ## Request flow and access control
@@ -124,7 +126,7 @@ Counters live in the Rails cache, which is a per-process memory store in product
 
 ## Testing and CI
 
-- `spec/requests/` covers the whole flow end to end (`challenge_flow_spec.rb`) and, per area: authorisation for proposals, votes and admin challenges, administrator registration and login, security headers and the session cookie, rate limits, and `force_ssl` (booted in a production-mode subprocess).
+- `spec/requests/` covers the whole flow end to end (`challenge_flow_spec.rb`) and, per area: the lifecycle transitions, authorisation for proposals, votes and admin challenges, administrator registration and login, security headers and the session cookie, rate limits, and `force_ssl` (booted in a production-mode subprocess).
 - `spec/models/` and `spec/test/integration/` cover the models, the CSV export, and the `expunge_data` task.
 - Rate limiting needs a real cache, so the test environment uses a memory store, cleared before each example.
 - `bin/ci` (configured in `config/ci.rb`) prepares the test database, then runs RSpec, `bundle-audit` (known gem advisories) and Brakeman (static analysis). The same command runs in GitHub Actions, so CI and local runs match.
@@ -154,5 +156,4 @@ docs/                                                     Screenshots referenced
 - Authorisation rests on unguessable random IDs and cookie sessions, not accounts. Anyone holding an administrator token has full admin rights over that administrator's challenges.
 - `Challenge` has no database-level foreign keys or constraints. Integrity relies on the model code.
 - `schedule_votes!` assumes more than 5 participants who have submitted a proposal. With 5 or fewer, a participant may be assigned their own idea or a duplicate. This is accepted as low impact (it only affects tiny groups, and costs a little scoring accuracy), so nothing stops an administrator opening voting with too few.
-- The lifecycle methods (`open_voting!`, `next_round!`, `reset!`) set state without checking the current status, so calling one from the wrong state is not rejected by the model. Only the challenge's owner can call them.
 - `Admin::ChallengesController` still has scaffold JSON response branches in `create` and `destroy`. The `jbuilder` gem is not installed, so there are no JSON views to render.

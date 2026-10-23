@@ -56,4 +56,64 @@ RSpec.describe "Challenge", type: :model do
     expect(c.participants.first.votes.count).to eq(0)
   end
 
+  describe "lifecycle transitions" do
+    let(:challenge) { Challenge.create!(challenge_prompt: "Foo", administrator: Administrator.new) }
+
+    before do
+      6.times do |i|
+        participant = Participant.create!(challenge_id: challenge.id, consent: true)
+        participant.create_proposed_solution!(challenge_id: challenge.id, narrative: "idea #{i}", first_step: "s")
+      end
+    end
+
+    it "only opens voting on an open challenge" do
+      challenge.open_voting!
+      expect { challenge.open_voting! }.to raise_error(Challenge::InvalidTransition)
+
+      4.times { challenge.next_round! }
+      challenge.next_round!
+      expect(challenge.status).to eq(Challenge::Status::FINISHED)
+      expect { challenge.open_voting! }.to raise_error(Challenge::InvalidTransition)
+    end
+
+    it "only advances rounds while voting" do
+      expect { challenge.next_round! }.to raise_error(Challenge::InvalidTransition)
+
+      challenge.open_voting!
+      5.times { challenge.next_round! }
+      expect { challenge.next_round! }.to raise_error(Challenge::InvalidTransition)
+    end
+
+    it "leaves the challenge untouched when a transition is refused" do
+      challenge.open_voting!
+      votes = challenge.votes.count
+
+      expect { challenge.open_voting! }.to raise_error(Challenge::InvalidTransition)
+
+      challenge.reload
+      expect(challenge.voting_round).to eq(1)
+      expect(challenge.votes.count).to eq(votes)
+    end
+
+    it "checks the state in the database, not a stale copy (two requests at once)" do
+      stale = Challenge.find(challenge.id)
+      expect(stale.status).to eq(Challenge::Status::OPEN)
+
+      challenge.open_voting!
+
+      expect { stale.open_voting! }.to raise_error(Challenge::InvalidTransition)
+      expect(challenge.votes.count).to eq(6 * 5)
+    end
+
+    it "reset clears the round" do
+      challenge.open_voting!
+      challenge.next_round!
+
+      challenge.reset!
+
+      expect(challenge.status).to eq(Challenge::Status::OPEN)
+      expect(challenge.voting_round).to be_nil
+    end
+  end
+
 end

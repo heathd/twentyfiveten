@@ -12,6 +12,9 @@ class Challenge < ApplicationRecord
     FINISHED = "finished"
   end
 
+  # Raised when a lifecycle transition is asked of a challenge in the wrong state.
+  class InvalidTransition < StandardError; end
+
   before_create do
     self.external_id = random_id(10) if external_id.blank?
     self.admin_id = random_id(14) if admin_id.blank?
@@ -64,8 +67,15 @@ class Challenge < ApplicationRecord
     self.votes.where(round: self.voting_round).where.not(vote: nil).count
   end
 
+  # Each transition takes a row lock and re-reads the challenge before checking
+  # its state, so two requests arriving together (a double click) can't both
+  # pass the check.
   def open_voting!
-    transaction do
+    with_lock do
+      unless status == Status::OPEN
+        raise InvalidTransition, "Voting can only be opened on a challenge that is open"
+      end
+
       self.status = Status::VOTING
       self.voting_round = 1
       schedule_votes!
@@ -74,21 +84,31 @@ class Challenge < ApplicationRecord
   end
 
   def next_round!
-    if self.voting_round == 5
-      self.status = Status::FINISHED
-      self.voting_round = nil
-    else
-      self.voting_round += 1
+    with_lock do
+      unless status == Status::VOTING
+        raise InvalidTransition, "Rounds can only be advanced while voting is open"
+      end
+
+      if self.voting_round == 5
+        self.status = Status::FINISHED
+        self.voting_round = nil
+      else
+        self.voting_round += 1
+      end
+      save!
     end
-    save!
   end
 
+  # Allowed from any state: cancels all votes and reopens the call for participation.
   def reset!
-    self.status = Status::OPEN
-    self.participants.each do |p|
-      p.votes.destroy_all
+    with_lock do
+      self.status = Status::OPEN
+      self.voting_round = nil
+      self.participants.each do |p|
+        p.votes.destroy_all
+      end
+      save!
     end
-    save!
   end
 
   def schedule_votes!
