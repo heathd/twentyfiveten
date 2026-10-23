@@ -13,6 +13,10 @@ on:
   pull_request:
     branches: [ main ]
 
+# The job only checks out code and runs tests, so it needs no more than this.
+permissions:
+  contents: read
+
 jobs:
   test:
 
