@@ -1,25 +1,15 @@
-<div class="twelve columns">
-  <%= form_for [challenge, current_vote], html: {class: "two columns"} do |f| %>
-    <%= f.hidden_field :vote, value: 1 %>
-    <%= f.submit '1' %><br />
-    &larr; Low
+<div class="vote-buttons" role="group" aria-label="Your score, from 1 (low) to 5 (high)">
+  <% (1..5).each do |score| %>
+    <%= form_for [challenge, current_vote], html: { id: "vote_form_#{score}" } do |f| %>
+      <%= f.hidden_field :vote, value: score, id: nil %>
+      <%= f.submit score.to_s,
+            class: ("selected" if current_vote.vote == score),
+            "aria-pressed": (current_vote.vote == score).to_s %>
+    <% end %>
   <% end %>
-  <%= form_for [challenge, current_vote], html: {class: "two columns"} do |f| %>
-    <%= f.hidden_field :vote, value: 2 %>
-    <%= f.submit '2' %>
-  <% end %>
-  <%= form_for [challenge, current_vote], html: {class: "two columns"} do |f| %>
-    <%= f.hidden_field :vote, value: 3 %>
-    <%= f.submit '3' %>
-  <% end %>
-  <%= form_for [challenge, current_vote], html: {class: "two columns"} do |f| %>
-    <%= f.hidden_field :vote, value: 4 %>
-    <%= f.submit '4' %>
-  <% end %>
-  <%= form_for [challenge, current_vote], html: {class: "two columns"} do |f| %>
-    <%= f.hidden_field :vote, value: 5 %>
-    <%= f.submit '5' %><br />
-    High &rarr;
-  <% end %>
+</div>
+<div class="vote-scale" aria-hidden="true">
+  <span>&larr; Low</span>
+  <span>High &rarr;</span>
 </div>
 <p>For a score of 5 -- Would you willingly invest your own time/energy/resources in this idea?</p>

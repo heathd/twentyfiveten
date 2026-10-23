@@ -28,10 +28,37 @@ body {
   margin: 0;
 }
 body, p, ol, ul, td {
-
   font-family: "Raleway", "HelveticaNeue", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  /* 16px is comfortable on a phone, and stops iOS zooming into form fields */
+  font-size: 16px;
+  line-height: 1.5;
 }
 
-p {
-  font-size: 14px;
+input[type="text"], input[type="password"], input[type="email"], textarea, select {
+  font-size: 16px;
+}
+
+/* Easy to tap: at least 44px tall */
+input[type="submit"], button, .button {
+  min-height: 44px;
+  height: auto;
+  line-height: 1.2;
+  padding-top: 0.6em;
+  padding-bottom: 0.6em;
+  font-size: 12px;
+}
+
+/* Keyboard users can see where they are */
+a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visible, select:focus-visible {
+  outline: 3px solid #1EAEDB;
+  outline-offset: 2px;
+}
+
+/* The admin list is wide: scroll it sideways on a narrow screen instead of overflowing the page */
+.table-scroll {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+.table-scroll table {
+  min-width: 40em;
 }
