@@ -74,6 +74,16 @@
   }
 }
 
+// After an action the browser scrolls to #challenge-<id>, putting that card at the top of the
+// screen. Near the end of a long page there may not be enough content below the card to allow
+// that, so when the page was opened at a card, leave room after the list. (The room is only
+// added then, so there is no permanent gap under the list.)
+.admin-challenges:has(:target)::after {
+  content: "";
+  display: block;
+  height: 80vh;
+}
+
 // Status badge (also used in other places that show a challenge's state)
 .status {
   display: inline-block;

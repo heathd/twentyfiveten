@@ -63,7 +63,7 @@ RSpec.describe "Admin challenge authorization", type: :request do
 
     it "can manage the challenge" do
       post open_voting_admin_challenge_path(challenge)
-      expect(response).to redirect_to(admin_challenges_path)
+      expect(response).to redirect_to(admin_challenges_path(anchor: "challenge-#{challenge.external_id}"))
       expect(challenge.reload.status).to eq(Challenge::Status::VOTING)
     end
   end

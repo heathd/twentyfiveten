@@ -1,4 +1,4 @@
-<article class="admin-challenge <%= challenge.age_class %>" data-challenge-id="<%= challenge.external_id %>">
+<article id="<%= challenge_card_id(challenge) %>" class="admin-challenge <%= challenge.age_class %>" data-challenge-id="<%= challenge.external_id %>">
   <header>
     <h2><%= truncate(challenge.challenge_prompt, length: 120, separator: ' ') %></h2>
     <%= render "challenge_status", status: challenge.status %>

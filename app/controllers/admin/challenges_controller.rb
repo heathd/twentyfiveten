@@ -38,7 +38,7 @@ class Admin::ChallengesController < ApplicationController
 
     respond_to do |format|
       if @challenge.save
-        format.html { redirect_to [:admin, :challenges], notice: 'Challenge was successfully created.' }
+        format.html { redirect_to_card 'Challenge was successfully created.' }
         format.json { render :show, status: :created, location: @challenge }
       else
         format.html { render :new }
@@ -69,18 +69,18 @@ class Admin::ChallengesController < ApplicationController
 
   def open_voting
     @challenge.open_voting!
-    redirect_to [:admin, :challenges], notice: 'Voting open'
+    redirect_to_card 'Voting open'
   end
 
   def next_round
     @challenge.next_round!
     notice = @challenge.status == Challenge::Status::FINISHED ? "Voting finished" : "Round #{@challenge.voting_round} open"
-    redirect_to [:admin, :challenges], notice: notice
+    redirect_to_card notice
   end
 
   def reset
     @challenge.reset!
-    redirect_to [:admin, :challenges], notice: "All votes cancelled, call for participation re-opened"
+    redirect_to_card "All votes cancelled, call for participation re-opened"
   end
 
   def require_administrator
@@ -96,6 +96,12 @@ class Admin::ChallengesController < ApplicationController
     # Scoped to the logged-in administrator: external_id is public (it is in the participant URL).
     def set_challenge
       @challenge = Challenge.where(administrator: @administrator).find_by_external_id!(params[:id])
+    end
+
+    # Back to the list, scrolled so the challenge just acted on is at the top of the screen.
+    # (A refused action goes to the top of the list instead, where its explanation is shown.)
+    def redirect_to_card(notice)
+      redirect_to admin_challenges_path(anchor: helpers.challenge_card_id(@challenge)), notice: notice
     end
 
     # Only allow a list of trusted parameters through.

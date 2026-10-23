@@ -21,6 +21,11 @@ RSpec.describe "Challenge lifecycle", type: :request do
     participants_count * 5
   end
 
+  # After an action on a challenge the administrator lands on that challenge's card
+  def card_url
+    admin_challenges_path(anchor: "challenge-#{challenge.external_id}")
+  end
+
   def open_voting;  post open_voting_admin_challenge_path(challenge); end
   def next_round;   post next_round_admin_challenge_path(challenge);  end
   def reset;        post reset_admin_challenge_path(challenge);       end
@@ -40,7 +45,7 @@ RSpec.describe "Challenge lifecycle", type: :request do
     it "opens voting and schedules every vote once" do
       open_voting
 
-      expect(response).to redirect_to(admin_challenges_path)
+      expect(response).to redirect_to(card_url)
       expect(challenge.reload.status).to eq(Challenge::Status::VOTING)
       expect(challenge.voting_round).to eq(1)
       expect(challenge.votes.count).to eq(votes_per_challenge)
@@ -82,7 +87,7 @@ RSpec.describe "Challenge lifecycle", type: :request do
     it "moves to the next round" do
       next_round
 
-      expect(response).to redirect_to(admin_challenges_path)
+      expect(response).to redirect_to(card_url)
       expect(challenge.reload.voting_round).to eq(2)
     end
 
@@ -91,6 +96,76 @@ RSpec.describe "Challenge lifecycle", type: :request do
 
       expect(challenge.reload.status).to eq(Challenge::Status::FINISHED)
       expect(challenge.voting_round).to be_nil
+    end
+  end
+
+  describe "landing on the card after an action" do
+    def page
+      Nokogiri::HTML(response.body)
+    end
+
+    it "scrolls to the challenge's card after opening voting" do
+      open_voting
+
+      expect(response).to redirect_to(card_url)
+      follow_redirect!
+      expect(page.at_css("article#challenge-#{challenge.external_id}")).to be_present
+    end
+
+    it "scrolls to the card after advancing a round, and after concluding voting" do
+      start_voting!
+
+      next_round
+      expect(response).to redirect_to(card_url)
+
+      3.times { challenge.next_round! }
+      next_round  # round 5 is open, so this concludes voting
+      expect(challenge.reload.status).to eq(Challenge::Status::FINISHED)
+      expect(response).to redirect_to(card_url)
+    end
+
+    it "scrolls to the card after a reset" do
+      start_voting!
+
+      reset
+
+      expect(response).to redirect_to(card_url)
+    end
+
+    it "does not use the anchor when an action is refused, so the explanation at the top is seen" do
+      next_round
+
+      expect(response).to redirect_to(admin_challenges_path)
+      expect(response.location).not_to include("#")
+      expect(flash[:notice]).to be_present
+    end
+
+    it "scrolls to the new challenge's card after creating one" do
+      expect {
+        post admin_challenges_path, params: { challenge: { challenge_prompt: "A brand new challenge" } }
+      }.to change(Challenge, :count).by(1)
+
+      created = Challenge.find_by!(challenge_prompt: "A brand new challenge")
+      expect(response).to redirect_to(admin_challenges_path(anchor: "challenge-#{created.external_id}"))
+
+      follow_redirect!
+      expect(page.at_css("article#challenge-#{created.external_id} h2").text).to eq("A brand new challenge")
+    end
+
+    it "goes to the top of the list after deleting a challenge, since its card is gone" do
+      delete admin_challenge_path(challenge)
+
+      expect(response).to redirect_to(admin_challenges_url)
+      expect(response.location).not_to include("#")
+    end
+
+    it "gives every card an id that no other card shares" do
+      other = Challenge.create!(administrator: administrator, challenge_prompt: "Another")
+
+      get admin_challenges_path
+      ids = page.css("article.admin-challenge").map { |c| c["id"] }
+
+      expect(ids).to contain_exactly("challenge-#{challenge.external_id}", "challenge-#{other.external_id}")
     end
   end
 
@@ -143,7 +218,7 @@ RSpec.describe "Challenge lifecycle", type: :request do
     it "cancels the votes and reopens the call for participation" do
       reset
 
-      expect(response).to redirect_to(admin_challenges_path)
+      expect(response).to redirect_to(card_url)
       expect(challenge.reload.status).to eq(Challenge::Status::OPEN)
       expect(challenge.votes.count).to eq(0)
     end
