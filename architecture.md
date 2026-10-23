@@ -8,7 +8,7 @@ It is deliberately minimal and privacy-conscious:
 
 - Nobody logs in with a name or password. Identity is a random token held in the session cookie.
 - Data is short-lived. A scheduled job deletes everything older than 30 days.
-- It is designed to be self-hosted with one click on Heroku (`app.json`).
+- It runs on Heroku, and can be self-hosted.
 
 ## Technology stack
 
@@ -20,7 +20,7 @@ It is deliberately minimal and privacy-conscious:
 | Frontend | Server-rendered ERB, Sprockets and Sass, and the Skeleton CSS grid (`skeleton-rails`). There is no JS framework: Turbo, Stimulus and Tailwind are commented out in the Gemfile. |
 | Tests | RSpec, with Capybara, Timecop and database_cleaner available |
 | CI | GitHub Actions with Postgres 14 (`.github/workflows/ruby.yml`) |
-| Deploy | Heroku, using the Scheduler, Postgres and Papertrail add-ons (`app.json`) |
+| Deploy | Heroku (Postgres, plus the Scheduler add-on for `expunge_data`) |
 
 ## Domain model
 
