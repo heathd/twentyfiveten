@@ -2,21 +2,98 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: https://sass-lang.com/
 
-// Colour code to show age. Translucent, so the table's own colours (and dark mode) show through.
-.admin_challenge_index tr.old > td {
-  background-color: rgba(255, 153, 0, 0.18);
-}
-.admin_challenge_index tr.about_to_be_deleted > td {
-  background-color: rgba(220, 38, 38, 0.18);
+// One card per challenge in the administrator's list. Colours are Pico's theme variables.
+.admin-challenge {
+  // Header: the prompt on the left, the status badge on the right (wrapping on a narrow screen)
+  > header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 0.5rem 1rem;
+
+    h2 {
+      flex: 1 1 14rem;
+      margin: 0;
+      font-size: 1.15rem;
+    }
+  }
+
+  p {
+    margin-bottom: 0.5rem;
+  }
+
+  .context {
+    color: var(--pico-muted-color);
+  }
+
+  // Long URLs must wrap rather than push the card wider than the screen
+  .share a {
+    overflow-wrap: anywhere;
+  }
+
+  .round progress {
+    margin: 0.25rem 0;
+  }
+
+  // Colour is not the only signal: the text says it too
+  .age-note {
+    padding-left: 0.5rem;
+    border-left: 0.25rem solid currentColor;
+  }
+
+  // Buttons wrap onto several lines on a phone; Delete sits apart from the others
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem;
+
+    form,
+    a[role="button"] {
+      margin: 0;
+    }
+
+    input[type="submit"],
+    a[role="button"] {
+      width: auto;
+      margin: 0;
+    }
+
+    .delete {
+      margin-left: auto;
+    }
+  }
+
+  &.old {
+    border-left: 0.35rem solid orange;
+  }
+
+  &.about_to_be_deleted {
+    border-left: 0.35rem solid var(--pico-del-color);
+  }
 }
 
-// The list is wide: scroll it sideways on a narrow screen instead of overflowing the page.
-.table-scroll {
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
-}
-.table-scroll table {
-  min-width: 40em;
+// Status badge (also used in other places that show a challenge's state)
+.status {
+  display: inline-block;
+  padding: 0.1rem 0.7rem;
+  border: 1px solid var(--pico-muted-border-color);
+  border-radius: 1rem;
+  color: var(--pico-muted-color);
+  font-size: 0.8rem;
+  white-space: nowrap;
+
+  &.status-voting {
+    border-color: var(--pico-primary-background);
+    background: var(--pico-primary-background);
+    color: var(--pico-primary-inverse);
+  }
+
+  &.status-finished {
+    border-color: var(--pico-ins-color);
+    color: var(--pico-ins-color);
+  }
 }
 
 // Destructive actions (Reset, Delete)

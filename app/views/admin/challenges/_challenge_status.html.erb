@@ -1,9 +1,5 @@
-<em><%= case status
-when ::Challenge::Status::OPEN
-  "Waiting for participants"
-when ::Challenge::Status::VOTING
-  "Voting"
-when ::Challenge::Status::FINISHED
-  "Finished"
-end
-%></em>
+<span class="status status-<%= status %>"><%= case status
+when ::Challenge::Status::OPEN then "Waiting for participants"
+when ::Challenge::Status::VOTING then "Voting"
+when ::Challenge::Status::FINISHED then "Finished"
+end %></span>

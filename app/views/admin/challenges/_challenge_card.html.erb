@@ -1,0 +1,71 @@
+<article class="admin-challenge <%= challenge.age_class %>" data-challenge-id="<%= challenge.external_id %>">
+  <header>
+    <h2><%= truncate(challenge.challenge_prompt, length: 120, separator: ' ') %></h2>
+    <%= render "challenge_status", status: challenge.status %>
+  </header>
+
+  <% if challenge.challenge_context.present? %>
+    <p class="context"><%= truncate(challenge.challenge_context, length: 200, separator: ' ') %></p>
+  <% end %>
+
+  <p class="share">
+    <small>Link to share</small><br />
+    <%= link_to challenge_url(challenge), challenge_path(challenge) %>
+  </p>
+
+  <p class="counts">
+    <%= pluralize(challenge.participants.count, "participant") %> &middot;
+    <%= pluralize(challenge.participants.joins(:proposed_solution).count, "proposal") %>
+  </p>
+
+  <% if challenge.status == Challenge::Status::VOTING %>
+    <p class="round">
+      Round <%= challenge.voting_round %> of 5<br />
+      <progress value="<%= challenge.voting_round %>" max="5" aria-label="Round <%= challenge.voting_round %> of 5"></progress>
+      Votes cast: <%= challenge.votes_cast_this_round %> / <%= challenge.participants.count %>
+    </p>
+  <% end %>
+
+  <p class="created">
+    <small>
+      Created <span title="<%= challenge.created_at %>"><%= time_ago_in_words(challenge.created_at) %> ago</span>
+    </small>
+  </p>
+
+  <% if challenge.about_to_be_deleted? %>
+    <p class="age-note"><strong>This challenge's data will be deleted soon.</strong></p>
+  <% elsif challenge.old? %>
+    <p class="age-note">This challenge is older than 20 days. Its data is deleted after 30 days.</p>
+  <% end %>
+
+  <footer class="actions">
+    <% if challenge.status == Challenge::Status::OPEN %>
+      <%= form_tag open_voting_admin_challenge_path(challenge) do %>
+        <%= submit_tag 'Open voting' %>
+      <% end %>
+    <% elsif challenge.status == Challenge::Status::VOTING %>
+      <% if challenge.voting_round == 5 %>
+        <%= form_tag next_round_admin_challenge_path(challenge) do %>
+          <%= submit_tag 'Conclude voting' %>
+        <% end %>
+      <% else %>
+        <%= form_tag next_round_admin_challenge_path(challenge) do %>
+          <%= submit_tag 'Next round' %>
+        <% end %>
+        <%= form_tag reset_admin_challenge_path(challenge) do %>
+          <%= submit_tag 'Reset', class: "danger", data: { confirm: "Resetting will cancel all votes cast and re-open the call for participation. Are you sure?" } %>
+        <% end %>
+      <% end %>
+    <% else %>
+      <%= link_to "See results", challenge_path(challenge), role: "button" %>
+      <%= link_to "Download CSV", challenge_path(challenge, format: :csv), role: "button", class: "secondary outline" %>
+    <% end %>
+
+    <%= link_to "Edit", edit_admin_challenge_path(challenge), role: "button", class: "secondary outline" %>
+    <%= link_to "View", challenge_path(challenge), role: "button", class: "secondary outline" %>
+
+    <%= form_for [:admin, challenge], method: :delete, html: { class: "delete" } do %>
+      <%= submit_tag 'Delete', class: "danger", data: { confirm: "Are you sure?" } %>
+    <% end %>
+  </footer>
+</article>

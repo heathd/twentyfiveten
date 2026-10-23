@@ -142,12 +142,12 @@ RSpec.describe "Mobile friendly markup", type: :request do
       end
     end
 
-    it "can scroll sideways on a narrow screen instead of overflowing the page" do
+    it "is a list of cards, not a wide table that overflows a narrow screen" do
       post login_administrators_path, params: { administrator_id: administrator.administrator_id }
 
       get admin_challenges_path
 
-      expect(Nokogiri::HTML(response.body).at_css(".table-scroll table.admin_challenge_index")).to be_present
+      expect(Nokogiri::HTML(response.body).css("table")).to be_empty
     end
   end
 end
