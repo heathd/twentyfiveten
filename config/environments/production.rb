@@ -46,7 +46,13 @@ Rails.application.configure do
   # config.action_cable.allowed_request_origins = [ "http://example.com", /http:\/\/example.*/ ]
 
   # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
-  # config.force_ssl = true
+  config.force_ssl = true
+
+  # Heroku's router terminates TLS and tells Rails via X-Forwarded-Proto.
+  # HSTS starts short so a mistake is cheap to undo (browsers remember it for
+  # this long). Once the site has run fine over HTTPS for a while, remove this
+  # override to get Rails' default of two years.
+  config.ssl_options = { hsts: { expires: 1.day, subdomains: false } }
 
   # Include generic and useful information about system operation, but avoid logging too much
   # information to avoid inadvertent exposure of personally identifiable information (PII).
