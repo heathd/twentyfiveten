@@ -1,0 +1,25 @@
+version: 2
+updates:
+  - package-ecosystem: bundler
+    directory: "/"
+    schedule:
+      interval: weekly
+    # Wait a week after a release before proposing it, so a bad or compromised
+    # release is more likely to have been caught or yanked. This only delays
+    # routine version updates; security updates are not held back.
+    cooldown:
+      default-days: 7
+    # One PR a week for routine bumps. Security updates are raised separately,
+    # one per advisory, and are not held back by grouping.
+    groups:
+      minor-and-patch:
+        update-types:
+          - minor
+          - patch
+
+  - package-ecosystem: github-actions
+    directory: "/"
+    schedule:
+      interval: weekly
+    cooldown:
+      default-days: 7

@@ -44,6 +44,11 @@ group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem 'debug', platforms: [:mri, :windows], require: 'debug/prelude'
   gem 'rspec-rails'
+
+  # Static analysis for security vulnerabilities, and a check of Gemfile.lock
+  # against known gem advisories. Both are run by bin/ci.
+  gem 'brakeman', require: false
+  gem 'bundler-audit', require: false
 end
 
 group :development do
